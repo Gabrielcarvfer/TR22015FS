@@ -35,11 +35,10 @@ public class DBConnManager
     }
     
     public synchronized static ResultSet runQueryAndReturn(String sql)
-    {
-        ResultSet rs;
-       
+    {       
         try 
         {
+            ResultSet rs;
             rs = stmt.executeQuery(sql);
             return rs;
         } 
@@ -54,7 +53,7 @@ public class DBConnManager
     {
         try
         {
-            stmt.executeQuery(sql);
+            stmt.execute(sql);
         }catch (SQLException ex)
         {
             Logger.getLogger(DBConnManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,10 +71,12 @@ public class DBConnManager
         }
     }
     
-    private static boolean loadDriver (String dbUrl)
+    private synchronized static boolean loadDriver (String dbUrl)
     {
         if (driverInitialized == true)
+        {
             return true;
+        }
         else
         {
             try {

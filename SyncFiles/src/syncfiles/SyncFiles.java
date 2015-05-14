@@ -31,15 +31,15 @@ public class SyncFiles {
         File file = new File("C:/Users/Gabriel/Documents/TR22015FS/SyncFiles/"); 
         addTree(file, all);
  
-        for (File temp : all) {
+        for (File temp : all) 
+        {
             FileFolderIndexThread indexer = new FileFolderIndexThread(temp);
             int i = 100000;
-            sleep(20);
             indexer.start();
             
         }
         
-        sleep(4000);
+        sleep(10000);
         
         DBConnManager.closeDatabaseConnection();
     }
