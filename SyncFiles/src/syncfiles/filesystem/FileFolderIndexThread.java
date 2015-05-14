@@ -23,19 +23,21 @@ import syncfiles.dao.DBConnManager;
 public class FileFolderIndexThread extends Thread
 {
     private Path path;
+    
     public FileFolderIndexThread (File file){
         this.path = file.toPath();
+        
     }
     @Override
-    public void run()
+    public synchronized void run()
     {
-        
+        DBConnManager.initializeDatabaseConnection();
         System.out.println("FileIndexThread running\n");
         BasicFileAttributes attr = null;
         
         try {
             attr = Files.readAttributes(this.path, BasicFileAttributes.class);
-            System.out.println("fileName: " + path.getFileName());
+            /*System.out.println("fileName: " + path.getFileName());
             System.out.println("creationTime: " + attr.creationTime());
             System.out.println("lastAccessTime: " + attr.lastAccessTime());
             System.out.println("lastModifiedTime: " + attr.lastModifiedTime());
@@ -44,7 +46,8 @@ public class FileFolderIndexThread extends Thread
             System.out.println("isRegularFile: " + attr.isRegularFile());
             System.out.println("isSymbolicLink: " + attr.isSymbolicLink());
             System.out.println("size: " + attr.size());
-            
+            System.out.println("File path: " + path.toString());
+            */
         } catch (IOException ex) {
             Logger.getLogger(FileFolderIndexThread.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -52,29 +55,37 @@ public class FileFolderIndexThread extends Thread
         /*Futuramente em DAOFiles*/
                 
         //Cria select, futuramente em DAOFiles
-        String sql = "SELECT * FROM files_n_folders"
-                + "WHERE files_n_folders.filepath = '" + path.getFileName() +"';";
+        String sql = "SELECT * FROM files_n_folders "
+                +"WHERE files_n_folders.filepath = '" + path.toString() +"';";
         
         //Roda query
-        ResultSet rs = DBConnManager.runQuery(sql);
+        ResultSet rs = DBConnManager.runQueryAndReturn(sql);
+        boolean nonNullRs = false;
         if(rs != null)  
         {
             try {
                 //Checa se arquivo existe
-                int fileId = rs.getInt("files.fileid");
-                int isFolder = rs.getInt("files.isfolder");
+                if((nonNullRs = rs.first()) == true)
+                {
+                    
+                int fileId = rs.getInt("fileid");
+                int isFolder = rs.getInt("isfolder");
                 System.out.print("File Id: " + fileId);
                 System.out.print(", Is Folder?: " + isFolder);
+                }
+                  
             } catch (SQLException ex) {
                 Logger.getLogger(FileFolderIndexThread.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        else
+        
+        
+        if (rs == null || nonNullRs != false)
         {
-            sql = "INSERT INTO files_n_folders "
-                    + "VALUES ('" + path.getFileName() + "', '" + attr.size() + "', '" + attr.creationTime() + "', '" + attr.lastModifiedTime() +"', '" + path.getFileName() + "', '" + attr.isDirectory() +"');";
+            sql = "INSERT INTO files_n_folders (filename, filesize, creationtime, lastmodified, filepath, isfolder)"
+                    +" VALUES ('" + path.getFileName() + "', '" + attr.size() + "', '" + attr.creationTime() + "', '" + attr.lastModifiedTime() +"', '" + path.toString() + "', '" + attr.isDirectory() +"');";
 
-            rs = DBConnManager.runQuery(sql);
+            DBConnManager.runQuery(sql);
        
         }
     }

@@ -6,6 +6,7 @@
 package syncfiles;
 
 import java.io.File;
+import static java.lang.Thread.sleep;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,10 +24,8 @@ public class SyncFiles {
      * @throws java.lang.InterruptedException
      * @throws java.net.UnknownHostException
      */
-    public static void main(String[] args) throws InterruptedException, UnknownHostException {
-        
-        DBConnManager.initializeDatabaseConnection();
-        
+    public static void main(String[] args) throws InterruptedException, UnknownHostException 
+    {       
        //Cria árvore que percorre arquivos e pastas
         Collection<File> all = new ArrayList<>();
         File file = new File("C:/Users/Gabriel/Documents/TR22015FS/SyncFiles/"); 
@@ -35,23 +34,14 @@ public class SyncFiles {
         for (File temp : all) {
             FileFolderIndexThread indexer = new FileFolderIndexThread(temp);
             int i = 100000;
-            while(i> 0)
-            {
-                i--;
-            }
+            sleep(20);
             indexer.start();
             
         }
         
+        sleep(4000);
         
-       if(DBConnManager.closeDatabaseConnection())
-        {
-            //yay
-        }
-        else
-        {
-            //shooo
-        }
+        DBConnManager.closeDatabaseConnection();
     }
     
     static void addTree(File file, Collection<File> all) {

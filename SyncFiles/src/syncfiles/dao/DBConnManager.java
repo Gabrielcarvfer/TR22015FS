@@ -20,55 +20,45 @@ import java.util.logging.Logger;
 public class DBConnManager 
 {
     private static final String DB_URL = "jdbc:sqlite:sync.db";
-    private static Connection conn;
-    private static Statement stmt;
+    private static Connection conn = null;
+    private static Statement stmt = null;
     private static boolean driverInitialized;
     
     public static boolean initializeDatabaseConnection()
     {
-        try 
-        {
-            if(driverInitialized == false)
-            {
-                Class.forName("org.sqlite.JDBC");
-                driverInitialized = true;
-                conn = DriverManager.getConnection(DB_URL);
-                stmt = conn.createStatement();
-            }
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(DBConnManager.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-         return true;
+       return loadDriver(DB_URL);
     }
     
     public static boolean initializeDatabaseConnection(String serverAddress)
     {
-        try 
-        {
-            if(driverInitialized == false)
-            {
-                Class.forName("org.sqlite.JDBC");
-                driverInitialized = true;
-                conn = DriverManager.getConnection(serverAddress);
-                stmt = conn.createStatement();
-            }
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(DBConnManager.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-        return true;
+        return loadDriver(serverAddress);
     }
     
-    public static ResultSet runQuery(String sql)
+    public synchronized static ResultSet runQueryAndReturn(String sql)
     {
-        try {
-            ResultSet rs = stmt.executeQuery(sql);
+        ResultSet rs;
+       
+        try 
+        {
+            rs = stmt.executeQuery(sql);
             return rs;
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(DBConnManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public synchronized static void runQuery(String sql)
+    {
+        try
+        {
+            stmt.executeQuery(sql);
+        }catch (SQLException ex)
+        {
+            Logger.getLogger(DBConnManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public static boolean closeDatabaseConnection(){   
@@ -81,5 +71,23 @@ public class DBConnManager
             return false;
         }
     }
-  
+    
+    private static boolean loadDriver (String dbUrl)
+    {
+        if (driverInitialized == true)
+            return true;
+        else
+        {
+            try {
+                Class.forName("org.sqlite.JDBC");
+                conn = DriverManager.getConnection(dbUrl);
+                stmt = conn.createStatement();
+                driverInitialized = true;
+                return true;
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(DBConnManager.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        }
+    }
 }
