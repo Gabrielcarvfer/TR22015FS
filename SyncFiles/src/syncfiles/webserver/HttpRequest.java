@@ -80,7 +80,7 @@ final class HttpRequest implements Runnable {
 	    contentTypeLine = "Content-Type: text/html" + CRLF;
 	    entityBody = "<HTML>" + 
 		"<HEAD><TITLE>Not Found</TITLE></HEAD>" +
-		"<BODY>Not Found</BODY></HTML>";
+		"<BODY>Not Found!</BODY></HTML>";
         }
 	// Send the status line.
         os.writeBytes(statusLine);
@@ -124,6 +124,9 @@ final class HttpRequest implements Runnable {
 	if(fileName.endsWith(".ram") || fileName.endsWith(".ra")) {
 	    return "audio/x-pn-realaudio";
 	}
+        if(fileName.endsWith(".css")){
+            return "text/css";
+        }
 	return "application/octet-stream" ;
     }
 }

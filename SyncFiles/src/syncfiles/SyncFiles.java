@@ -8,10 +8,8 @@ package syncfiles;
 import java.io.File;
 import static java.lang.Thread.sleep;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Collection;
-import syncfiles.dao.DBConnManager;
-import syncfiles.filesystem.FileFolderIndexThread;
+import syncfiles.filesystem.FileSystem;
+import syncfiles.webserver.WebServer;
 
 /**
  *
@@ -27,30 +25,19 @@ public class SyncFiles {
     public static void main(String[] args) throws InterruptedException, UnknownHostException 
     {       
        //Cria árvore que percorre arquivos e pastas
-        Collection<File> all = new ArrayList<>();
+        
         File file = new File("C:/Users/Gabriel/Documents/TR22015FS/SyncFiles/"); 
-        addTree(file, all);
- 
-        for (File temp : all) 
-        {
-            FileFolderIndexThread indexer = new FileFolderIndexThread(temp);
-            int i = 100000;
-            indexer.start();
-            
-        }
+        FileSystem fs = new FileSystem();
+        fs.reIndexFolder(file);
+        
+        WebServer ws = new WebServer();
+        ws.start();
+        
         
         sleep(10000);
         
-        DBConnManager.closeDatabaseConnection();
+        
     }
     
-    static void addTree(File file, Collection<File> all) {
-        File[] children = file.listFiles();
-        if (children != null) {
-            for (File child : children) {
-                all.add(child);
-                addTree(child, all);
-            }
-        }
-    }
+   
 }

@@ -38,6 +38,7 @@ public class DBConnManager
     {       
         try 
         {
+            loadDriver(DB_URL);
             ResultSet rs;
             rs = stmt.executeQuery(sql);
             return rs;
@@ -53,6 +54,7 @@ public class DBConnManager
     {
         try
         {
+            loadDriver(DB_URL);
             stmt.execute(sql);
         }catch (SQLException ex)
         {
@@ -60,10 +62,11 @@ public class DBConnManager
         }
     }
     
-    public static boolean closeDatabaseConnection(){   
+    public synchronized static boolean closeDatabaseConnection(){   
         try {
             stmt.close();
             conn.close();
+            driverInitialized = false;
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(DBConnManager.class.getName()).log(Level.SEVERE, null, ex);
