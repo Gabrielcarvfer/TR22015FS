@@ -15,14 +15,25 @@ import java.util.logging.Logger;
 import syncfiles.dao.DAOFiles;
 
 /**
- *
+ * @class FileFolderIndexThread
  * @author Gabriel
  */
+
+
 public class FileFolderIndexThread extends Thread
 {
     private Path path;
     private static final String userDir = System.getProperty("user.dir");
     
+    /**
+    * Return a instance of File and Folder indexer. 
+    * The file argument must specify a file {@link File}, that is going
+    * to be indexed to the database.
+    * <p>
+    *
+    * @param  file a file or folder to index
+    * @see         FileFolderIndexThread
+    */
     public FileFolderIndexThread (File file){
         this.path = file.toPath();
         
@@ -42,11 +53,8 @@ public class FileFolderIndexThread extends Thread
         
         if (attr != null)
         {
-            //rSystem.out.println("Including file:\n");
             DAOFiles.insertNewFile (path.getFileName().toString(), attr.size(), attr.creationTime().toString(),
                     attr.lastModifiedTime().toString(), path.toString().replace(userDir, ""), attr.isDirectory() );  
-            //System.out.println("Removing file:\n");
-            //DAOFiles.removeFile(path.toString());
         }
     }
 }

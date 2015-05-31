@@ -21,7 +21,7 @@ public class WebServer {
           return;
         }
 
-        System.out.println("Esperando conexÃ£o...");
+        System.out.println("Esperando conexão...");
         for (;;) {
           try {
                 // Listen for a TCP connection request.

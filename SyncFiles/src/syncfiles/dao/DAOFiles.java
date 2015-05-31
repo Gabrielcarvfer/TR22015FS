@@ -66,7 +66,6 @@ public class DAOFiles {
         {
        
             String sql = "DELETE FROM files_n_folders WHERE filePath = '" + filePath + "';";
-
             DBConnManager.runQuery(sql);
             return true;
         }
