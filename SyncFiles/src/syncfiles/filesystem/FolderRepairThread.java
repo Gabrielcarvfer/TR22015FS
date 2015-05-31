@@ -12,7 +12,6 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import syncfiles.dao.DAOFiles;
 
 /**
  *

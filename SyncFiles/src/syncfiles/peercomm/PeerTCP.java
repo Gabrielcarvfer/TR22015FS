@@ -11,9 +11,24 @@ package syncfiles.peercomm;
  */
 public class PeerTCP 
 {
-    localLeader();
-    startConnection();
-    transmitInfo();
-    receiveInfo();
+    void localLeader()
+    {
+        
+    }
+    
+     void startConnection()
+    {
+        
+    }
+    
+     void transmitInfo()
+    {
+        
+    }
+    
+     void receiveInfo()
+    {
+        
+    }
     
 }

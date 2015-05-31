@@ -17,6 +17,16 @@ import syncfiles.filesystem.FileFolderIndexThread;
  */
 public class DAOFiles {
 
+    /**
+    * Check if file or folder already exists in database. 
+    * This function check if file or folder is already indexed in database
+    * returning true or false.
+    * <p>
+    * 
+    * @param filePath string containing the path to a file or folder
+    * @return true if file does exist or false if it does not
+    * @see    DAOFiles
+    */
     private synchronized static boolean checkFileExistance(String filePath)
     {
         DBConnManager.initializeDatabaseConnection();
@@ -46,6 +56,25 @@ public class DAOFiles {
         return false;
     }
     
+    
+    /**
+    * Insert new file or folder to the database. 
+    * This function check if file or folder is already indexed in database
+    * and if it is not indexed yet, try to insert it to the database.
+    * <p>
+    * 
+    * @param fileName string containing the file or folder name
+    * @param fileSize file size in bytes
+    * @param creationTime timestamp of file creation
+    * @param lastModified timestamp of last file modification
+    * @param filePath string containing the entire path to the file
+    * @param isFolder boolean value indicating that the file is really a file, or a folder
+    * 
+    * @return true if file was inserted or already exists, or 
+    *  not if any of those failed
+    * 
+    * @see    DAOFiles
+    */
     public synchronized static boolean insertNewFile
         (String fileName, long fileSize, String creationTime, String lastModified, String filePath, boolean isFolder)
     {
@@ -60,6 +89,20 @@ public class DAOFiles {
         return false;
     }
         
+        
+        /**
+    * Remove file or folder from the database. 
+    * This function check if file or folder is already indexed in database
+    * and if it is already indexed, try to remove from the database.
+    * <p>
+    * 
+    * @param filePath string containing the entire path to the file
+    * 
+    * @return true if file was removed or false
+    * if the file/folder  is not indexed.
+    * 
+    * @see    DAOFiles
+    */
     public synchronized static boolean removeFile(String filePath)
     {
         if(checkFileExistance(filePath) == true)

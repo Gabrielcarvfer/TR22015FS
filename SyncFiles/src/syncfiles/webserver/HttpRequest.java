@@ -8,9 +8,15 @@ package syncfiles.webserver;
  *
  * @author andred
  */
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.StringTokenizer;
 
 final class HttpRequest implements Runnable {
     final static String CRLF = "\r\n";
@@ -124,9 +130,18 @@ final class HttpRequest implements Runnable {
 	if(fileName.endsWith(".ram") || fileName.endsWith(".ra")) {
 	    return "audio/x-pn-realaudio";
 	}
-        if(fileName.endsWith(".css")){
-            return "text/css";
-        }
+                        if(fileName.endsWith(".css")){
+                            return "text/css";
+                        }
+                         if(fileName.endsWith(".js")){
+                            return "application/javascript";
+                        }
+                          if(fileName.endsWith(".jpg")){
+                            return "image/jpeg";
+                        }
+                           if(fileName.endsWith(".png")){
+                            return "image/png";
+                        }
 	return "application/octet-stream" ;
     }
 }
