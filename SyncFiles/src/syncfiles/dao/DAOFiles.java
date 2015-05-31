@@ -9,7 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import syncfiles.filesystem.FileFolderIndexThread;
+import syncfiles.dao.db.DBConnManager;
+import syncfiles.filesystem.FileIndexThread;
 
 /**
  *
@@ -50,7 +51,7 @@ public class DAOFiles {
             } 
             catch (SQLException ex) 
             {
-                Logger.getLogger(FileFolderIndexThread.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FileIndexThread.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return false;
@@ -103,15 +104,39 @@ public class DAOFiles {
     * 
     * @see    DAOFiles
     */
-    public synchronized static boolean removeFile(String filePath)
-    {
-        if(checkFileExistance(filePath) == true)
-        {
-       
-            String sql = "DELETE FROM files_n_folders WHERE filePath = '" + filePath + "';";
-            DBConnManager.runQuery(sql);
-            return true;
-        }
-        return false;
-    }
+            public synchronized static boolean removeFile(String filePath) 
+            {
+                        if(checkFileExistance(filePath) == true)
+                       {
+                                     String sql = "SELECT * FROM files_n_folders "
+                                                 +"WHERE files_n_folders.fileID = '" + filePath +"';";
+                                     ResultSet rs = DBConnManager.runQueryAndReturn(sql);
+
+                                    try 
+                                    {
+                                                rs.next();
+                                                //if just a file, remove it and it's mapping
+                                                if(rs.getBoolean("isFolder") == false)
+                                                {
+                                                            sql = "DELETE FROM files_n_folders WHERE fileID = " + rs.getBigDecimal("fileID")+ ";";
+                                                            DBConnManager.runQueryAndReturn(sql);
+
+                                                             sql = "DELETE FROM file_map WHERE fileID="+ rs.getBigDecimal("fileID")+ ";";
+                                                            DBConnManager.runQueryAndReturn(sql);
+                                                }
+                                                //if it's a folder, remove it and every files associated to its mapping
+                                                else
+                                                {
+                                                    
+                                                }
+                                    } 
+                                    catch (SQLException ex) 
+                                    {
+                                                Logger.getLogger(DAOFiles.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                    
+                                    return true;
+                        }
+                  return false;
+            }
 }

@@ -1,4 +1,4 @@
-package syncfiles.dao;
+package syncfiles.dao.db;
 
 import java.sql.ResultSet;
 import org.json.JSONArray;

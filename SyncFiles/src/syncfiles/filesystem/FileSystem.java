@@ -9,7 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import syncfiles.dao.DAOFiles;
-import syncfiles.dao.DBConnManager;
+import syncfiles.dao.db.DBConnManager;
 
 /**
  *
@@ -34,12 +34,15 @@ public class FileSystem {
  
         for (File temp : all) 
         {
-            FileFolderIndexThread indexer = new FileFolderIndexThread(temp);
-            indexer.start();
+            //Index files and folders to database
+            FileIndexThread indexer = new FileIndexThread(temp);
+            indexer.run();
             
-        }
-        for (File temp : all)
-        {
+            //Link files to folders
+            FileMapThread mapper = new FileMapThread(temp);
+            mapper.run();
+            
+            //Create folders that are included on the database but not present
             FolderRepairThread repairer = new FolderRepairThread(temp);
             repairer.run();
         }

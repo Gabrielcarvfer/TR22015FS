@@ -35,7 +35,7 @@ public class FolderRepairThread {
         try {
             attr = Files.readAttributes(this.path, BasicFileAttributes.class);
         } catch (IOException ex) {
-            Logger.getLogger(FileFolderIndexThread.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FileIndexThread.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         if (attr != null && attr.isDirectory() == true)
