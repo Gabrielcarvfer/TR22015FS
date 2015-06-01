@@ -71,6 +71,7 @@ final class HttpRequest implements Runnable {
 	String headerLine = null;
         String bodyLine = null;
         String contentLength = null;
+        String contentLine = "";
 
 
 	while ((headerLine = br.readLine()).length() != 0) {
@@ -82,10 +83,14 @@ final class HttpRequest implements Runnable {
 }
         if(requestLine.contains("POST")){
             for(int i = 0; i < Integer.parseInt(contentLength); i++ ){
-                System.out.print((char)br.read());
+                //System.out.print((char)br.read());
+                contentLine += (char)br.read();
             }
-        }
-
+             System.out.println(contentLine);
+            WebPage wp = new WebPage(contentLine);
+           
+          }
+       
 	// Construct the response message.
         String statusLine = null;
         String contentTypeLine = null;
