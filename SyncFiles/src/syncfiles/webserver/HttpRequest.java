@@ -88,9 +88,9 @@ final class HttpRequest implements Runnable {
             }
              System.out.println(contentLine);
             WebPage wp = new WebPage(contentLine);
-           
+
           }
-       
+
 	// Construct the response message.
         String statusLine = null;
         String contentTypeLine = null;
@@ -141,25 +141,38 @@ final class HttpRequest implements Runnable {
 	}
     }
 
-    private static String contentType(String fileName) {
-	if(fileName.endsWith(".htm") || fileName.endsWith(".html")) {
+    private static String contentType(String fileName)
+    {
+	if(fileName.endsWith(".htm") || fileName.endsWith(".html"))
+        {
 	    return "text/html;  charset=utf-8";
 	}
-	if(fileName.endsWith(".ram") || fileName.endsWith(".ra")) {
+
+	if(fileName.endsWith(".ram") || fileName.endsWith(".ra"))
+        {
 	    return "audio/x-pn-realaudio";
 	}
-                        if(fileName.endsWith(".css")){
-                            return "text/css";
-                        }
-                         if(fileName.endsWith(".js")){
-                            return "application/javascript";
-                        }
-                          if(fileName.endsWith(".jpg")){
-                            return "image/jpeg";
-                        }
-                           if(fileName.endsWith(".png")){
-                            return "image/png";
-                        }
+        
+        if(fileName.endsWith(".css"))
+        {
+            return "text/css";
+        }
+
+        if(fileName.endsWith(".js"))
+        {
+            return "application/javascript";
+        }
+
+        if(fileName.endsWith(".jpg"))
+        {
+            return "image/jpeg";
+        }
+
+        if(fileName.endsWith(".png"))
+        {
+            return "image/png";
+        }
+                        
 	return "application/octet-stream" ;
     }
 }
