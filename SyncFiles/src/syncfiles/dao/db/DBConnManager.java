@@ -63,15 +63,20 @@ public class DBConnManager
     }
     
     public synchronized static boolean closeDatabaseConnection(){   
-        try {
-            stmt.close();
-            conn.close();
-            driverInitialized = false;
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(DBConnManager.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+        if(driverInitialized == true)
+        {
+            try {
+
+                stmt.close();
+                conn.close();
+                driverInitialized = false;
+                return true;
+            } catch (SQLException ex) {
+                Logger.getLogger(DBConnManager.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
         }
+        return false;
     }
     
     private synchronized static boolean loadDriver (String dbUrl)
