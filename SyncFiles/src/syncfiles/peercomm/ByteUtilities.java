@@ -16,7 +16,7 @@ import java.nio.ByteBuffer;
  * @author gabriel
  */
 public class ByteUtilities {
-    private static ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);    
+    private static ByteBuffer buffer = ByteBuffer.allocate(8);
 
     public static synchronized byte[] longToBytes(long x) {
         buffer.putLong(0, x);
