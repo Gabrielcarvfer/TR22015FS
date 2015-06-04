@@ -9,7 +9,6 @@ import java.io.File;
 import static java.lang.Thread.sleep;
 import java.net.UnknownHostException;
 import syncfiles.filesystem.FileSystem;
-import syncfiles.webserver.WebServer;
 
 /**
  *
@@ -25,15 +24,14 @@ public class SyncFiles {
     public static void main(String[] args) throws InterruptedException, UnknownHostException 
     {       
        //Cria árvore que percorre arquivos e pastas
-        
-        File file = new File("C:/Users/Gabriel/Documents/TR22015FS/SyncFiles/"); 
+        File file = new File(System.getProperty("user.dir")); 
         FileSystem fs = new FileSystem();
         fs.reIndexFolder(file);
         
-        WebServer ws = new WebServer();
-        ws.start();
+       // WebServer ws = new WebServer();
+       //ws.start();
         
-        
+       System.out.println("Esperando pra acabar"); 
         sleep(10000);
         
         

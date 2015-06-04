@@ -20,7 +20,6 @@ import syncfiles.dao.DAOFiles;
  */
 public class FileMapThread {
             private Path path;
-            private static final String userDir = System.getProperty("user.dir");
 
             /**
             * Return a instance of File Map indexer. 
@@ -49,8 +48,8 @@ public class FileMapThread {
 
                         if (attr != null)
                         {
-                            DAOFiles.insertNewFile (path.getFileName().toString(), attr.size(), attr.creationTime().toString(),
-                                    attr.lastModifiedTime().toString(), path.toString().replace(userDir, ""), attr.isDirectory() );  
+                            String fileName = path.getFileName().toString();
+                            DAOFiles.mapFile (fileName, path.toString());  
                         }
             }
 }
