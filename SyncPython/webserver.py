@@ -25,13 +25,16 @@ class WebHandler (BaseHTTPRequestHandler):
 	def do_POST(self):
 		global rootnode
 		try:
+			print "receiving file"
 			ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
 			if ctype == 'multipart/form-data':
+				print "parsing file"
 				query=cgi.parse_multipart(self.rfile, pdict)
 			self.send_response(301)
 
 			self.end_headers()
 			upfilecontent = query.get('upfile')
+			print "uploading file"
 			print "filecontent", upfilecontent[0]
 			self.wfile.write("<HTML>POST OK.<BR><BR>")
 			self.wfile.write(upfilecontent[0])
