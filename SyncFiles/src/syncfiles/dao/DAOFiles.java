@@ -48,7 +48,7 @@ public class DAOFiles {
         
         //Cria select, futuramente em DAOFiles
         String sql = "SELECT * FROM files_n_folders "
-                + "WHERE files_n_folders.fileid= '" + new BigInteger(1, m.digest()).toString(16)  + "';";
+                + "WHERE files_n_folders.fileid= '" + new BigInteger(1, m.digest())  + "';";
 
         //Roda query
         ResultSet rs = DBConnManager.runQueryAndReturn(sql);
@@ -97,7 +97,7 @@ public class DAOFiles {
             if (m != null) {
                 m.update(filePath.getBytes(), 0, filePath.length());
                 String sql = "INSERT INTO files_n_folders (fileid, filename, filesize, creationtime, lastmodified, filepath, isfolder)"
-                        + " VALUES ('" + new BigInteger(1, m.digest()).toString(16) + "' , ' " + fileName + "', '" + fileSize + "', '" + creationTime + "', '" + lastModified + "', '" + filePath + "', '" + isFolder + "');";
+                        + " VALUES ('" + new BigInteger(1, m.digest()) + "' , ' " + fileName + "', '" + fileSize + "', '" + creationTime + "', '" + lastModified + "', '" + filePath + "', '" + isFolder + "');";
 
                 DBConnManager.runQuery(sql);
                 return true;
@@ -153,7 +153,7 @@ public class DAOFiles {
      * file or folder is already indexed in database and if it is already
      * indexed, try to map it to the parent folder.
      * <p>
-     *@param fileName string cointaining the file name
+     * @param fileName string containing the file name
      * @param filePath string containing the entire path to the file
      *
      * @return true if file was removed or false if the file/folder is not
@@ -176,7 +176,7 @@ public class DAOFiles {
                 String folderPath = filePath.replace(fileName, "");
                 m2.update(folderPath.getBytes(), 0, folderPath.length());
                 String sql = "INSERT INTO file_map (folderid, fileid)"
-                        + " VALUES ('" + new BigInteger(1, m.digest()).toString(16) + "', '" + new BigInteger(1, m2.digest()).toString(16) + "');";
+                        + " VALUES ('" + new BigInteger(1, m.digest()) + "', '" + new BigInteger(1, m2.digest()) + "');";
                 ResultSet rs = DBConnManager.runQueryAndReturn(sql);
 
                 /*
