@@ -1,5 +1,5 @@
-import cgi, string, time
-from os import curdir, sep
+import cgi, string, time, os, os.path
+from os import curdir, pardir, sep
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 
 class WebHandler (BaseHTTPRequestHandler):
@@ -26,20 +26,31 @@ class WebHandler (BaseHTTPRequestHandler):
 		global rootnode
 		try:
 			print "receiving file"
+			form = cgi.FieldStorage()
+			print form
 			ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
 			if ctype == 'multipart/form-data':
+				print "Okey dokey"
 				print "parsing file"
 				query=cgi.parse_multipart(self.rfile, pdict)
 			self.send_response(301)
 
 			self.end_headers()
 			upfilecontent = query.get('upfile')
-			print "uploading file"
-			print "filecontent", upfilecontent[0]
+			"""print "uploading file"""
+			"""print "filecontent", upfilecontent[0]"""
 			self.wfile.write("<HTML>POST OK.<BR><BR>")
-			self.wfile.write(upfilecontent[0])
+			"""self.wfile.write(upfilecontent[0])"""
+
+			fout = open(os.path.join(pardir, 'uploads', form['upfile'].filename), 'wb')
+			print os.path.join(partir, 'uploads', form['upfile'].filename)
+			fout.write(upfilecontent);
+			fout.close();
+
 		except:
 			pass
+
+
 def main():
 	try:
 		server = HTTPServer(('', 80), WebHandler)
