@@ -16,7 +16,6 @@ fileitem = form['upfile']
 
 # Test if the file was uploaded
 if fileitem.filename:
-   
    # strip leading path from file name to avoid directory traversal attacks
    fn = os.path.basename(fileitem.filename)
    open('syncedFiles/' + fn, 'wb').write(fileitem.file.read())
