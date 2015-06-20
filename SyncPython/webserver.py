@@ -1,10 +1,11 @@
+#!/usr/bin/env python
 import BaseHTTPServer
 from CGIHTTPServer import CGIHTTPRequestHandler
 
 def main():
 	try:
 
-		server_address = ('', 80)
+		server_address = ('', 8080)
 
 		server = BaseHTTPServer.HTTPServer
 		handler = CGIHTTPRequestHandler
@@ -12,7 +13,7 @@ def main():
 
 		httpd = server(server_address, handler)
 		httpd.serve_forever()
-		print 'started httpserver...'
+		print 'Started httpserver...'
 
 	except KeyboardInterrupt:
 		print '^C received, shutting down server'
