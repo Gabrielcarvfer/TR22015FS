@@ -26,7 +26,7 @@ else:
 print """\
 Content-Type: text/html\n
 <html>
-<head><meta http-equiv="refresh" content="5;URL='/webpage/hello.html'" />
+<head><meta http-equiv="refresh" content="1;URL='mainpage.py'" />
 </head>
 <body>
 <p>%s</p>

@@ -1,18 +1,47 @@
 <!DOCTYPE html>
+
 <html>
-   <head>Bem vindo Usuario!</head>
+ 
+<head>Bem vindo Usuario!</head>
+
    <body>
-       
-	<div>Adicionar arquivo: 
-	<form method="GET">
-		
-		<p>Escolha o arquivo:<input type="file" name="somename" size="chars"></p>
-		<p>Diretorio: <input type="text" name="dir">
-		<input type="submit" value="Send"></p>
+
+<div>
+<p>Criar novo diretório</p>
+<form  method="POST" action="../cgi-bin/add_dir.py">
+<p>Nome do pai do novo diretório:
+<select name="dir">
+<option value="pai">Arquivos</option>
+</select></p>
+<p>Nome do novo diretório:<input type="text"name="dirName"></p>
+<input type="submit" value="Submit">
+</form>
+</div>
+
+    
+	<div>
+<p>Adicionar arquivo</p>
+
+<form  method="POST" action="../cgi-bin/add_file.py">
+
+<p>Diretório onde o arquivo vai ser alocado:</p>
+<select name="fileDir">
+<option value="Arquivos">Arquivos</option>
+</select>
+</p>
+
+	<p>Escolha o arquivo:<input type="file" name="somename" size="chars">
+	</p>
+
+	<input type="submit" value="Send">
+	</p>
 	</form>
 	</div>
 
-   </body>
+  
+
+ </body>
+
 
 
 </html>
