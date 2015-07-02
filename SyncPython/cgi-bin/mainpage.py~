@@ -74,7 +74,7 @@ print """\
 """
 
 
-for path, dirs, files in os.walk('./info'):
+for path, dirs, files in os.walk('.\info'):
     print '<option value='+ path + '>' + os.path.basename(path) + '</option>'
 
 print """\  
@@ -96,7 +96,7 @@ print """\
 
 
 """
-for path, dirs, files in os.walk('./info'):
+for path, dirs, files in os.walk('.\info'):
     print '<option value='+ path + '>' + os.path.basename(path) + '</option>'
 
 print """\
