@@ -13,20 +13,27 @@ form = cgi.FieldStorage()
 
 # A nested FieldStorage instance holds the file
 fileitem = form['upfile']
+fileDir = form['fileDir']
 
 # Test if the file was uploaded
 if fileitem.filename:
    # strip leading path from file name to avoid directory traversal attacks
    fn = os.path.basename(fileitem.filename)
-   open('syncedFiles/' + fn, 'wb').write(fileitem.file.read())
-   message = 'The file "' + fn + '" was uploaded successfully'
+   #open('syncedFiles/' + fn, 'wb').write(fileitem.file.read())
+   #open(fileDir + '/' + fn, 'wb').write(fileitem.file.read())
+   open(fileDir.file.read() + '/' + fn, 'wb').write(fileitem.file.read())
+   message = 'The file "' + fn + '" was uploaded successfully' 
    
 else:
    message = 'No file was uploaded'
    
 print """\
 Content-Type: text/html\n
-<html><body>
+<html>
+<head><meta http-equiv="refresh" content="1;URL='mainpage.py'" />
+</head>
+<body>
 <p>%s</p>
 </body></html>
 """ % (message,)
+

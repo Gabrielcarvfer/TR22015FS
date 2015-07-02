@@ -3,6 +3,8 @@
 import cgi, os
 import cgitb; cgitb.enable()
 import os.path
+import re
+# Function declaration
  
 try: # Windows needs stdio set for binary mode.
     import msvcrt
@@ -21,11 +23,18 @@ fileName = form.getvalue('fileName')
 
 # Test if the file was uploaded
 if fatherDir and newDirName:
-   open('info/dir.txt', 'a').write(fatherDir + ' ' + newDirName + '\n')
+   #fatherDir = filter(str.isalnum, fatherDir)
+   newDirName = filter(str.isalnum, newDirName)
+   p = os.path.dirname( fatherDir + '/' + newDirName+ '/')
+   if not os.path.exists(p):
+       os.makedirs(p)
    message = 'Novo diretorio cadastrado com sucesso'
 
 if fileDir and fileName:
+    fileDir = filter(str.isalnum, fileDir)
+    fileName = filter(str.isalnum, fileName)
     open('info/arquivos.txt','a').write(fileDir + ' ' +fileName + '\n')
+    open('info/'+fileDir+'.txt','a').write('file '+fileName + ' \n')
 
 fh = open("info/user.txt", "r")
 userName = fh.read()
@@ -39,6 +48,20 @@ print """\
 <head>Bem vindo, %s!</head>
 """ %(userName)
 
+print '<ul>'
+for path, dirs, files in os.walk('.\info'):
+    lining = path.count('\\')
+    for x in range (0,lining-1):
+        print '<ul>'
+    print '<li>'+ os.path.basename(path) 
+    print '<ul>'
+    for f in files:
+        print '<li>'+f+'</li>'
+    print '</li>'
+    for x in range (0,lining):
+        print '</ul>'
+print '</ul>'
+
 print """\
    <body>
 
@@ -47,23 +70,11 @@ print """\
 <form  method="POST" action="../cgi-bin/mainpage.py">
 <p>Nome do pai do novo diretorio:
 <select name="dir">
-<option value="Arquivos">Arquivos</option>
 """
-if os.path.isfile("info/dir.txt"):
-    sonDir = ""
-    myfile = open("info/dir.txt", "r")
-    for line in myfile:
-        for char in line:
-            if char != " ":
-                sonDir += char
-            else:
-                dadDir = sonDir
-                sonDir = ""
-            #newDir = myfile.read()
-        print """\
-        <option value="%s">%s</option>
-        """ %(sonDir, sonDir)
-    fh.close()
+
+
+for path, dirs, files in os.walk('.\info'):
+    print '<option value='+ path + '>' + os.path.basename(path) + '</option>'
 
 print """\  
 </select></p>
@@ -76,40 +87,27 @@ print """\
 	<div>
 <p>Adicionar arquivo</p>
 
-<form  method="POST" action="../cgi-bin/mainpage.py">
 
+<form enctype="multipart/form-data" action="../cgi-bin/upload_file.py" method="post">
+	
 <p>Diretorio onde o arquivo vai ser alocado:</p>
 <select name="fileDir">
-<option value="Arquivos">Arquivos</option>
+
 
 """
-
-if os.path.isfile("info/dir.txt"):
-    sonDir = ""
-    myfile = open("info/dir.txt", "r")
-    for line in myfile:
-        for char in line:
-            if char != " ":
-                sonDir += char
-            else:
-                dadDir = sonDir
-                sonDir = ""
-            #newDir = myfile.read()
-        print """\
-        <option value="%s">%s</option>
-        """ %(sonDir, sonDir)
-    fh.close()
+for path, dirs, files in os.walk('.\info'):
+    print '<option value='+ path + '>' + os.path.basename(path) + '</option>'
 
 print """\
 </select>
 </p>
 
-	<p>Escolha o arquivo:<input type="file" name="fileName" size="chars">
-	</p>
-
-	<input type="submit" value="Send">
-	</p>
+	
+<input type="file" name="upfile" /> 
+	
+	<input type="submit" value="Send" />
 	</form>
+
 	</div>
 
   
