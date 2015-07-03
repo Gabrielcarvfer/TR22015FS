@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/home/matheus/Dropbox/Unb/TR2-Andre/projeto/TR22015FS/SyncFiles/src/syncfiles/webserver/WebServer.java</file>
+            <file>file:/home/matheus/Dropbox/Unb/TR2-Andre/projeto/TR22015FS/SyncFiles/src/syncfiles/webserver/WebPage.java</file>
+            <file>file:/home/matheus/Dropbox/Unb/TR2-Andre/projeto/TR22015FS/SyncFiles/src/syncfiles/SyncFiles.java</file>
+        </group>
+>>>>>>> be49970f6cdae092eac7d1592010460deff6ef75
     </open-files>
 </project-private>

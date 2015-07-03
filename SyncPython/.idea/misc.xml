@@ -10,5 +10,9 @@
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 2.7.10 (C:\Users\gabri\AppData\Local\scoop\shims\python.exe)" project-jdk-type="Python SDK" />
+=======
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 2.7.10 (/usr/bin/python2.7)" project-jdk-type="Python SDK" />
+>>>>>>> be49970f6cdae092eac7d1592010460deff6ef75
 </project>

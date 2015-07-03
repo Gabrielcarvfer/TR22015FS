@@ -25,12 +25,21 @@ public class SyncFiles {
     public static void main(String[] args) throws InterruptedException, UnknownHostException 
     {       
        //Cria árvore que percorre arquivos e pastas
+<<<<<<< HEAD
         //File file = new File(System.getProperty("user.dir")); 
         //FileSystem fs = new FileSystem();
         //fs.reIndexFolder(file);
         
         WebServer ws = new WebServer();
         ws.start();
+=======
+       // File file = new File(System.getProperty("user.dir")); 
+        //FileSystem fs = new FileSystem();
+       // fs.reIndexFolder(file);
+        
+       WebServer ws = new WebServer();
+       ws.start();
+>>>>>>> be49970f6cdae092eac7d1592010460deff6ef75
         
        System.out.println("Esperando pra acabar"); 
         sleep(10000);

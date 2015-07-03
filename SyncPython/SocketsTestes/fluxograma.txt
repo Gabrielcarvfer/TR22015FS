@@ -1,0 +1,50 @@
+fluxograma 
+
+passo 1 manda broadcast, se der timeout eh o primeiro
+                        senao nao eh o primeiro
+
+se deu timeout 
+    pega ID 1:
+senao
+    pega proximo ID dalista
+
+cenario 1 - sou o primeiro
+
+    cria lista com nomes e usuarios para todo novo no q entrar no sistema
+
+cenario 2 - nao sou o primeiro
+
+    pega lista de informacoes
+
+
+independente de ser o primeiro ou nao
+
+    estabelece conexao tcp para cada nova conexao ( nova thread )
+
+    espera mensagem KeepAlive de cada thread
+
+
+    thread para saber se ha diferenca por causa do balanceamento
+
+    ??? thread para abrir conexoes tcp caso precise de um arquivo fora da maquina local
+
+
+
+
+
+thread 1 - entrar na rede
+  manda broadcast
+  se receber resposta, entra na lista do lider
+  senao cria uma lista e eh o lider
+
+thread 2 - ver se alguem entrou na rede
+  recebe mensagem broadcast
+  se eu for lider adiciono na lista e mando lista e estabeleco conexao TCP
+  senao for lider nao faco nada
+
+thread 3 - ver se alguem saiu da rede
+  se a conexao do tcp sofrer um timeout qr dizer que usuario saiu
+  se eu for lider tira ele da lista e atualiza lista
+  senao for lider nao faco nada
+
+
