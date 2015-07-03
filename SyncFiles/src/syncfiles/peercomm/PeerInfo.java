@@ -20,14 +20,17 @@ import java.net.InetAddress;
     */
     
 public class PeerInfo {
-         long time;
-         InetAddress ip;
-         byte [] mac;
+        long id;
+        long time;
+        InetAddress ip;
+        byte [] mac;
          
-         PeerInfo(long time, InetAddress ip, byte[] mac)
-         {
-                  this.time = time;
-                  this.ip = ip;
-                  this.mac = mac;
-         }
+        PeerInfo(long id, long time, InetAddress ip, byte[] mac)
+        {
+            this.id = id;
+            this.time = time;
+            this.ip = ip;
+            this.mac = mac;
+        }
+        
 }

@@ -15,7 +15,7 @@ public class WebServer {
         System.out.println("Iniciando Webserver na porta 80");
 
         try {
-          socket = new ServerSocket(80);
+          socket = new ServerSocket(8080);
         } catch (Exception e) {
           System.out.println("Erro: " + e);
           return;

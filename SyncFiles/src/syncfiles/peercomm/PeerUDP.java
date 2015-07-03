@@ -18,10 +18,11 @@ import java.util.Collection;
  */
 public class PeerUDP 
 {
+    private static Collection<PeerInfo> peerCollection;
     private static final String broadcastIP = "255.255.255.255";
     private static final int    defaultUDPPort = 1234;
-    private static final int packageSize = 64;
-    private static final int timeout = 300; //milliseconds
+    private static final int    packageSize = 64;
+    private static final int    timeout = 300; //milliseconds
    
       /**
     * Run UDP server. 
@@ -29,11 +30,10 @@ public class PeerUDP
     * packet sender with its peer info {@link PeerInfo} .
     * <p>
     *
-    * @return PeerInfo original sender peer information
     * @throws java.io.IOException
     * @see    PeerUDP
     */
-    public PeerInfo run_server () throws IOException
+    public void run_server implements Runnable
     {
          //Open UDP socket
          DatagramSocket serverSocket = new DatagramSocket(PeerUDP.defaultUDPPort);      
@@ -54,7 +54,6 @@ public class PeerUDP
     
          DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, sourceIP, sourcePort); 
          serverSocket.send(sendPacket);               
-         return peerInfo;
     }
     
     
@@ -65,11 +64,10 @@ public class PeerUDP
     * <p>
     * The return is a collection of all UDP servers info that were sent in time.
     * 
-    * @return Collection collection of peer information received
     * @throws java.io.IOException
     * @see    PeerUDP
     */
-    public Collection<PeerInfo> run_client () throws IOException
+    public void run_client () throws IOException
     {
         //Allocate structures and address to send message
         InetAddress IPAddress = InetAddress.getByName(PeerUDP.broadcastIP);
@@ -114,7 +112,6 @@ public class PeerUDP
          }
          //System.out.println("FROM SERVER:" + modifiedSentence);    
          clientSocket.close();    
-         return peerInfo;
     }
     
 }

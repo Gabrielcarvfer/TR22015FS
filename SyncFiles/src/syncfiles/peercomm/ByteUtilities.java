@@ -48,15 +48,19 @@ public class ByteUtilities {
          ByteArrayOutputStream tempBuffer = new ByteArrayOutputStream (64);   
          
          tempBuffer.write(receivedPacket, 0, 4);
-         long timestamp = ByteUtilities.bytesToLong(tempBuffer.toByteArray());
+         long id = ByteUtilities.bytesToLong(tempBuffer.toByteArray());
          tempBuffer.flush();
          
          tempBuffer.write(receivedPacket, 4, 4);
+         long timestamp = ByteUtilities.bytesToLong(tempBuffer.toByteArray());
+         tempBuffer.flush();
+         
+         tempBuffer.write(receivedPacket, 8, 4);
          InetAddress sourceIP = InetAddress.getByAddress(tempBuffer.toByteArray());
          tempBuffer.flush();
          
          byte[] MAC = NetworkInterface.getByInetAddress(sourceIP).getHardwareAddress();
          
-         return new PeerInfo(timestamp, sourceIP, MAC);
+         return new PeerInfo(id, timestamp, sourceIP, MAC);
     }
 }

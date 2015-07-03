@@ -35,6 +35,7 @@ if fileDir and fileName:
     fileDir = filter(str.isalnum, fileDir)
     fileName = filter(str.isalnum, fileName)
     open('info/arquivos.txt','a').write(fileDir + ' ' +fileName + '\n')
+    open('info/arquivos.txt','a').write(fileDir + ' ' +fileName + '\n')
     open('info/'+fileDir+'.txt','a').write('file '+fileName + ' \n')
 
 fh = open("info/user.txt", "r")
