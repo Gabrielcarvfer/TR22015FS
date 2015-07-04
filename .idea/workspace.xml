@@ -2,52 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6288a860-bed0-429e-b580-d41e5e1722b1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SyncPython/socketUDP.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SyncPython/webhandler.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SyncPython/websock.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/peercomm/ByteUtilities.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/peercomm/ByteUtilities.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/dao/DAOFiles.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/dao/DAOFiles.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/dao/DAOPeers.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/dao/DAOPeers.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/dao/db/DBConnManager.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/dao/db/DBConnManager.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/filesystem/FileIndexThread.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/filesystem/FileIndexThread.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/filesystem/FileMapThread.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/filesystem/FileMapThread.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/filesystem/FileRepairThread.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/filesystem/FileRepairThread.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/filesystem/FileSystem.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/filesystem/FileSystem.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/filesystem/FolderRepairThread.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/filesystem/FolderRepairThread.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/webserver/HttpRequest.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/webserver/HttpRequest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONArray.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONArray.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONException.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONObject$1.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONObject$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONObject$Null.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONObject$Null.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONObject.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONObject.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONString.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONString.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONStringer.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONStringer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONTokener.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONTokener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONWriter.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/org/json/JSONWriter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/peercomm/PeerInfo.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/peercomm/PeerInfo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/peercomm/PeerTCP.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/peercomm/PeerTCP.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/peercomm/PeerUDP.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/peercomm/PeerUDP.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/dao/db/ResultSetConverter.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/dao/db/ResultSetConverter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/SyncFiles.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/SyncFiles.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/webserver/WebPage.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/webserver/WebPage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/webserver/WebServer.class" afterPath="$PROJECT_DIR$/SyncFiles/build/classes/syncfiles/webserver/WebServer.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/sync.db" afterPath="$PROJECT_DIR$/SyncFiles/sync.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncPython/sync.db" afterPath="$PROJECT_DIR$/SyncPython/sync.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/src/syncfiles/peercomm/ByteUtilities.java" afterPath="$PROJECT_DIR$/SyncFiles/src/syncfiles/peercomm/ByteUtilities.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/src/syncfiles/peercomm/PeerInfo.java" afterPath="$PROJECT_DIR$/SyncFiles/src/syncfiles/peercomm/PeerInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/src/syncfiles/peercomm/PeerUDP.java" afterPath="$PROJECT_DIR$/SyncFiles/src/syncfiles/peercomm/PeerUDP.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/src/syncfiles/SyncFiles.java" afterPath="$PROJECT_DIR$/SyncFiles/src/syncfiles/SyncFiles.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/src/syncfiles/webserver/WebServer.java" afterPath="$PROJECT_DIR$/SyncFiles/src/syncfiles/webserver/WebServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/webpage/hello.html" afterPath="$PROJECT_DIR$/SyncFiles/webpage/hello.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncPython/cgi-bin/index_files.py" afterPath="$PROJECT_DIR$/SyncPython/cgi-bin/index_files.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncPython/cgi-bin/mainpage.py" afterPath="$PROJECT_DIR$/SyncPython/cgi-bin/mainpage.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/webpage/newpage.html" afterPath="$PROJECT_DIR$/SyncFiles/webpage/newpage.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/nbproject/private/private.properties" afterPath="$PROJECT_DIR$/SyncFiles/nbproject/private/private.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/nbproject/private/private.xml" afterPath="$PROJECT_DIR$/SyncFiles/nbproject/private/private.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncFiles/nbproject/project.properties" afterPath="$PROJECT_DIR$/SyncFiles/nbproject/project.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncPython/info/user.txt" afterPath="$PROJECT_DIR$/SyncPython/info/user.txt" />
+      <change type="DELETED" beforePath="C:\Users\gabri\Documents\TR22015FS\SyncPython\SocketsTestes\sockthread.py" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\gabri\Documents\TR22015FS\SyncPython\socketUDP.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SyncPython/webserver.py" afterPath="$PROJECT_DIR$/SyncPython/webserver.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TR22015FS.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -72,10 +30,20 @@
         <entry file="file://$PROJECT_DIR$/SyncPython/webserver.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding>
                 <element signature="e#94#121#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sockthread.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/SyncPython/sockthread.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="1.1870325">
+              <caret line="33" column="82" selection-start-line="33" selection-start-column="82" selection-end-line="33" selection-end-column="82" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -87,18 +55,6 @@
               <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
               <folding>
                 <element signature="e#189#202#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="socketUDP.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/SyncPython/socketUDP.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9132653">
-              <caret line="51" column="49" selection-start-line="51" selection-start-column="49" selection-end-line="51" selection-end-column="49" />
-              <folding>
-                <element signature="e#188#199#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -133,8 +89,9 @@
       <list>
         <option value="$PROJECT_DIR$/SyncPython/websock.py" />
         <option value="$PROJECT_DIR$/SyncPython/webhandler.py" />
-        <option value="$PROJECT_DIR$/SyncPython/webserver.py" />
         <option value="$PROJECT_DIR$/SyncPython/socketUDP.py" />
+        <option value="$PROJECT_DIR$/SyncPython/webserver.py" />
+        <option value="$PROJECT_DIR$/SyncPython/sockthread.py" />
       </list>
     </option>
   </component>
@@ -142,9 +99,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="401" />
-    <option name="width" value="966" />
-    <option name="height" value="735" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -246,6 +204,40 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="TR22015FS" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SyncPython/webserver.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="sockthread" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/SyncPython/SocketsTestes" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="TR22015FS" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SyncPython/SocketsTestes/sockthread.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="sockthread (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/SyncPython" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="TR22015FS" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/SyncPython/sockthread.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -372,12 +364,16 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="1">
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Python.webserver" />
+      <item index="1" class="java.lang.String" itemvalue="Python.sockthread" />
+      <item index="2" class="java.lang.String" itemvalue="Python.sockthread (1)" />
     </list>
     <recent_temporary>
-      <list size="1">
+      <list size="3">
         <item index="0" class="java.lang.String" itemvalue="Python.webserver" />
+        <item index="1" class="java.lang.String" itemvalue="Python.sockthread (1)" />
+        <item index="2" class="java.lang.String" itemvalue="Python.sockthread" />
       </list>
     </recent_temporary>
   </component>
@@ -395,16 +391,17 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="401" y="0" width="966" height="735" extended-state="0" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3568421" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24816984" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32967034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3343949" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32967034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -414,7 +411,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -456,16 +452,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SyncPython/webserver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
-          <folding>
-            <element signature="e#94#121#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SyncPython/websock.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -476,13 +462,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SyncPython/socketUDP.py">
+    <entry file="file://$PROJECT_DIR$/SyncPython/webserver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9132653">
-          <caret line="51" column="49" selection-start-line="51" selection-start-column="49" selection-end-line="51" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding>
-            <element signature="e#188#199#0" expanded="true" />
+            <element signature="e#94#121#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SyncPython/sockthread.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.1870325">
+          <caret line="33" column="82" selection-start-line="33" selection-start-column="82" selection-end-line="33" selection-end-column="82" />
+          <folding />
         </state>
       </provider>
     </entry>

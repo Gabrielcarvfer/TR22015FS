@@ -2,7 +2,7 @@
 #import BaseHTTPServer
 #from CGIHTTPServer import CGIHTTPRequestHandler
 from websock import websock
-from socketUDP import udpsock_broadcaster, udpsock_listener
+from sockthread import startUDPServer
 import threading
 def main():
 	try:
@@ -19,12 +19,9 @@ def main():
 		server.start()
 		print 'Started httpserver...'
 
-		broad = threading.Thread(target=udpsock_broadcaster)
-		broad.start()
+		udp_server = threading.Thread(target=startUDPServer)
 		print 'Started udp broadcaster...'
 
-		listen = threading.Thread(target=udpsock_listener)
-		listen.start()
 
 
 	except KeyboardInterrupt:
