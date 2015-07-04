@@ -24,12 +24,27 @@ def keepAliveListener(conn, LOCAL_IP, dict):
             try:
                 data, addr = conn.recvfrom(1028)
                 if(addr[0] != LOCAL_IP):
-                    print "From addr: '%s', msg: '%s'" % (addr[0], data)
+                    #debug printing
+                    #print "From addr: '%s', msg: '%s'" % (addr[0], data)
 
-                    match = re.match('SYNCFILES_MAC_(\d+)', data)
+                    #filter source MAC address to match.group(1) and IP address to match.group(2)
+                    match = re.match('SYNCFILES_MAC_(\d+)_IP_(.*$)', data)
+
+                    #debug printing
+                    #print match.group(1)
+                    #print match.group(2)
+
                     #parse data into peer dictionary
-                    print match.group(1)
+                    if dict.has_key(match.group(1)):
+                        #reset peer timer
+                        continue
+
                     #if dict.has_key(match.group(1)):
+                    else:
+                        dict[match.group(1)] = match.group(2)
+                        print 'New peer:' + dict[match.group(1)]
+                        #set new peer timer
+                        continue
 
 
 
@@ -39,10 +54,10 @@ def keepAliveListener(conn, LOCAL_IP, dict):
             except:
                 print "timeout"
 
-def keepAliveSend(conn):
+def keepAliveSend(conn, LOCAL_IP):
     while True:
             mac = get_mac()
-            conn.sendto(('SYNCFILES_MAC_%s' % mac), (BROADCAST_IP, PORT))
+            conn.sendto(('SYNCFILES_MAC_%s_IP_%s' % (mac, LOCAL_IP)), (BROADCAST_IP, PORT))
             time.sleep(1)
 
 def startUDPServer(dict):
@@ -66,7 +81,7 @@ def startUDPServer(dict):
         print "Nao foi possivel iniciar thread Listener"
 
     try:
-        thread.start_new_thread( keepAliveSend, (udpSock, ) )
+        thread.start_new_thread( keepAliveSend, (udpSock, LOCAL_IP,) )
     except:
         print "Nao foi possivel iniciar thread Sender"
 
