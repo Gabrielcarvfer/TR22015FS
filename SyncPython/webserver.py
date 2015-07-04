@@ -1,25 +1,35 @@
 #!/usr/bin/env python
 from websock import websock
-from sockthread import startUDPServer
-import thread
+from sockthread import UDPServer
+import threading
+
 def main():
-	try:
-		peer_dict = {}
+    peer_dict = {}
+    threads = []
+    try:
+        try:
+            threads.append(threading.Thread(target=websock,args=(80,)))
+            threads[0].start()
+            print 'Started httpserver...'
+        except:
+            print 'Could not start httpserver'
 
-		#server = threading.Thread(target=websock)
-		thread.start_new_thread( websock, () )
-		print 'Started httpserver...'
+        try:
+            threads.append( threading.Thread(target=UDPServer, args=(peer_dict,)))
+            threads[1].start()
+            print 'Started udp broadcaster...'
+        except:
+            print 'Could not start udpserver'
 
-		#thread.start_new_thread( startUDPServer, (peer_dict) )
-		startUDPServer(peer_dict)
-		print 'Started udp broadcaster...'
+        threads[0].join()
+        threads[1].join()
 
 
+    except KeyboardInterrupt:
+        print '^C received, shutting down server'
 
-	except KeyboardInterrupt:
-		print '^C received, shutting down server'
-		#server.socket.close()
+
 
 if __name__ == '__main__':
-	main()
+    main()
 		
