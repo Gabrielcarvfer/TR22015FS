@@ -3,6 +3,9 @@
 import thread
 import time
 import socket
+import re
+from uuid import getnode as get_mac
+
 
 # Porta UDP para broadcast do keep alive
 PORT = 12345
@@ -14,27 +17,41 @@ HOST_IP = ''
 #HOST_IP = s.getsockname()[0]
 #s.close()
 
-def keepAliveListener(conn):
+def keepAliveListener(conn, LOCAL_IP, dict):
     while 1:
         # Receive messages
         while True:
             try:
                 data, addr = conn.recvfrom(1028)
-                print "From addr: '%s', msg: '%s'" % (addr[0], data)
-                #parse data into peer dictionary
+                if(addr[0] != LOCAL_IP):
+                    print "From addr: '%s', msg: '%s'" % (addr[0], data)
+
+                    match = re.match('SYNCFILES_MAC_(\d+)', data)
+                    #parse data into peer dictionary
+                    print match
+                    #if dict.has_key(match.group(1)):
+
+
+
+                else:
+                    print 'Message received was sent by myself'
+                    continue
             except:
                 print "timeout"
 
 def keepAliveSend(conn):
     while True:
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect(("gmail.com",80))
-            localIP = s.getsockname()[0]
-            s.close()
-            conn.sendto(('SYNCFILES_LocalIP',localIP,'_PeerIP',s.getpeername()[0],), (BROADCAST_IP, PORT))
+            mac = get_mac()
+            conn.sendto(('SYNCFILES_MAC_%s' % mac), (BROADCAST_IP, PORT))
             time.sleep(1)
 
-def startUDPServer():
+def startUDPServer(dict):
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("gmail.com",80))
+    LOCAL_IP = s.getsockname()[0]
+    s.close()
+
     # Create socket and bind to address
     udpSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     udpSock.bind((HOST_IP, PORT))
@@ -44,7 +61,7 @@ def startUDPServer():
     udpSock.setsockopt(socket.SOL_SOCKET,socket.SO_BROADCAST, 1)
 
     try:
-        thread.start_new_thread( keepAliveListener, (udpSock, ) )
+        thread.start_new_thread( keepAliveListener, (udpSock, LOCAL_IP, dict, ) )
     except:
         print "Nao foi possivel iniciar thread Listener"
 

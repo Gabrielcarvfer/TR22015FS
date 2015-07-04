@@ -1,25 +1,17 @@
 #!/usr/bin/env python
-#import BaseHTTPServer
-#from CGIHTTPServer import CGIHTTPRequestHandler
 from websock import websock
 from sockthread import startUDPServer
-import threading
+import thread
 def main():
 	try:
+		peer_dict = {}
 
-		#server_address = ('', 8080)
-
-		#server = BaseHTTPServer.HTTPServer
-		#handler = CGIHTTPRequestHandler
-		#handler.cgi_directories = ['/cgi-bin']
-
-		#httpd = server(server_address, handler)
-		#httpd.serve_forever()
-		server = threading.Thread(target=websock)
-		server.start()
+		#server = threading.Thread(target=websock)
+		thread.start_new_thread( websock, () )
 		print 'Started httpserver...'
 
-		udp_server = threading.Thread(target=startUDPServer)
+		#thread.start_new_thread( startUDPServer, (peer_dict) )
+		startUDPServer(peer_dict)
 		print 'Started udp broadcaster...'
 
 
