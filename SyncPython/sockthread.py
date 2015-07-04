@@ -28,7 +28,7 @@ def keepAliveListener(conn, LOCAL_IP, dict):
 
                     match = re.match('SYNCFILES_MAC_(\d+)', data)
                     #parse data into peer dictionary
-                    print match
+                    print match.group(1)
                     #if dict.has_key(match.group(1)):
 
 
