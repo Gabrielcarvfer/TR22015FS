@@ -3,7 +3,9 @@
 import socket  # Networking support
 import signal  # Signal support (server shutdown on signal receive)
 import time    # Current time
-
+import os.path
+import shutil
+import re
 
 class websock:
     """ Class describing a simple HTTP server objects."""
@@ -138,8 +140,141 @@ class websock:
                 print ("Closing connection with client")
                 conn.close()
 
+            if(request_method == 'POST'):
+                print "Solicitacao de post"
+                file_requested = string.split(' ')
+                file_requested = file_requested[1]
+                last_line = string.split(" ")[-1:]
+                
+                parameter = last_line[-1].split('\n')
+                print parameter[-1]
+                some_parameters = parameter[-1].split('=')
+                tipo = some_parameters[0]
+                print tipo
+                
+                if tipo == "login":
+                    login = some_parameters[1]
+                
+                if tipo == "dir":
+                    print "estou no dir"
+                    new_dir = some_parameters[2]
+                    print new_dir
+                    father_dir = some_parameters[1].split('&')
+                    father_dir = father_dir[0]
+                    father_dir = father_dir.replace("%2F", "/");
+                    father_dir = father_dir.replace("%5C", "/");
+                    print father_dir
+
+                    re.sub(r'\W+', '', new_dir)
+                    #father_dir = filter(str.isalnum, father_dir)
+                    #new_dir = filter(str.isalnum, new_dir)
+                    p = os.path.dirname( father_dir + '/' + new_dir+ '/')
+                    if not os.path.exists(p):
+                       os.makedirs(p)
+                   #print "Erro"
+                   #message = 'Novo diretorio cadastrado com sucesso'
+
+                if tipo == "delete_dir":
+                    delete_dir = some_parameters[1]
+                    delete_dir = delete_dir.replace("%2F", "/");
+                    delete_dir = delete_dir.replace("%5C", "/");
+                    print delete_dir
+                    shutil.rmtree(delete_dir)
+                    
+                file_requested = "Mainpage"
+                file_requested = self.www_dir + file_requested
+                print ("Serving web page [",file_requested,"]")
+              
+                try:
+                    #file_handler = open(file_requested,'rb')
+                    response_content = mainpage(login)
+                    #response_content = file_handler.read()
+                    #file_handler.close()
+
+                    response_headers = self._gen_headers( 200)
+
+                except Exception as e: #in case file was not found, generate 404 page
+                    print ("Warning, file not found. Serving response code 404\n", e)
+                    response_headers = self._gen_headers( 404)
+
+                    if (request_method == 'GET'):
+                        response_content = b"<html><body><p>Error 404: File not found</p><p>Python HTTP server</p></body></html>"
+
+
+                server_response =  response_headers.encode()
+                server_response +=  response_content
+
+
+                conn.send(server_response)
+                print ("Closing connection with client")
+                conn.close()
+
             else:
                 print("Unknown HTTP request method:", request_method)
+
+
+def mainpage( str ):
+    header =  """<!DOCTYPE html> <html> <head>Bem vindo, %s!</head>""" %(str)
+    tree = '<ul>'
+
+    for path, dirs, files in os.walk('./info'):
+        lining = path.count('\\')
+        for x in range (0,lining-1):
+            tree += '<ul>'
+        tree +='<li>'+ os.path.basename(path) 
+        tree +='<ul>'
+        for f in files:
+            tree += '<li>'+f+'</li>'
+        tree += '</li>'
+        for x in range (0,lining):
+            tree+= '</ul>'
+    tree+= '</ul>'
+
+    body = """ <body> <div> <p>Criar novo diretorio</p>
+<form  method="POST" ">
+<p>Nome do pai do novo diretorio:<select name="dir">"""
+    for path, dirs, files in os.walk('./info'):
+        body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
+    body += """\  
+    </select></p>
+    <p>Nome do novo diretorio:<input type="text"name="dirName"></p>
+    <input type="submit" value="Submit">
+    </form>
+    </div>
+    <div>
+    <p>Deletar diretorio</p>
+    <form  method="POST" ">
+    <p>Diretorio a ser deletado(e todos os arquivos):<select name="delete_dir">"""
+    for path, dirs, files in os.walk('./info'):
+        if path != './info':
+            body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
+    body += """\  
+    </select></p>
+    <input type="submit" value="Submit">
+    </form>
+    </div>	<div>
+    
+    <p>Adicionar arquivo</p>
+    <form " method="post" >
+    <p>Diretorio onde o arquivo vai ser alocado:</p>
+    <select name="fileDir">
+    """
+    for path, dirs, files in os.walk('./info'):
+        body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
+    body +=  """\
+    </select>
+    </p>     
+    <input type="text" name="upfile" /> 
+            <input type="submit" value="Send" />
+            </form>
+            </div>
+     </body>
+    </html>
+
+    """
+# <form enctype="multipart/form-data" " method="post" >
+    return header+tree+body
+    
 
 def graceful_shutdown(sig, dummy):
     """ This function shuts down the server. It's triggered
