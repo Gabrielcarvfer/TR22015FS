@@ -15,8 +15,8 @@ class websock:
         self.host = ''   # <-- works on all avaivable network interfaces
         self.port = port
         self.www_dir = 'webpage' # Directory where webpage files are stored
-	#self.www_dir = ''        
-	self.activate_server()
+        #self.www_dir = ''
+        self.activate_server()
         self._wait_for_connections()
 
 
@@ -49,11 +49,13 @@ class websock:
         print ("Press Ctrl+C to shut down the server and exit.")
         self._wait_for_connections()
 
-    def shutdown(self):
+    def stop(self):
         """ Shut down the server """
         try:
             print("Shutting down the server")
             self.socket.shutdown(socket.SHUT_RDWR)
+            self.finished.set()
+            self._Thread__stop()
 
         except Exception as e:
             print("Warning: could not shut down the socket. Maybe it was already closed?",e)

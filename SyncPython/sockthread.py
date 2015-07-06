@@ -11,7 +11,8 @@ from uuid import getnode as get_mac
 # Porta UDP para broadcast do keep alive
 PORT = 54321
 BROADCAST_IP = '255.255.255.255'
-HOST_IP = ''
+threads = []
+#HOST_IP = ''
 
 
 def keepAliveListener(conn, LOCAL_IP, dict):
@@ -20,36 +21,42 @@ def keepAliveListener(conn, LOCAL_IP, dict):
         while True:
             try:
                 data, addr = conn.recvfrom(1028)
-                if (addr[0] != LOCAL_IP):
-                    # debug printing
-                    # print "From addr: '%s', msg: '%s'" % (addr[0], data)
+                #if (addr[0] != LOCAL_IP):
+                # debug printing
+                #print "From addr: '%s', msg: '%s'" % (addr[0], data)
 
-                    # filter source MAC address to match.group(1) and IP address to match.group(2)
-                    match = re.match('SYNCFILES_MAC_(\d+)_IP_(.*$)', data)
+                # filter source MAC address to match.group(1) and IP address to match.group(2)
+                match = re.match('SYNCFILES_MAC_(\d+)_IP_(.*$)', data)
 
-                    # debug printing
-                    # print match.group(1)
-                    # print match.group(2)
+                # debug printing
+                #print match.group(1)
+                #print match.group(2)
 
-                    # parse data into peer dictionary
-                    if dict.has_key(match.group(1)):
-                        #TODO: reset peer timer
+                # parse data into peer dictionary
+                #if dict.has_key(match.group(1)):
+                #TODO: reset peer timer
+                #    continue
+
+                if dict.has_key(match.group(1)):
+                    if dict[match.group(1)] == match.group(2):
                         continue
-
-                    # if dict.has_key(match.group(1)):
                     else:
                         dict[match.group(1)] = match.group(2)
-                        #print 'New peer:' + dict[match.group(1)]
-                        #TODO:set new peer timer
-                        continue
-
-
-
-                else:
-                    # print 'Message received was sent by myself'
                     continue
+                else:
+                    dict[match.group(1)] = match.group(2)
+                    #print 'New peer:' + dict[match.group(1)]
+                    #TODO:set new peer timer
+                    continue
+
+
+
+                    #else:
+                    # print 'Message received was sent by myself'
+                    # continue
             except:
                 print "timeout"
+time.sleep(0.010)
 
 
 def keepAliveSend(conn, LOCAL_IP):
@@ -68,13 +75,13 @@ def UDPServer(dict):
 
     # Create socket and bind to address
     udpSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    udpSock.bind((HOST_IP, PORT))
+    udpSock.bind((LOCAL_IP, PORT))
     udpSock.settimeout(5.0)
 
     udpSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     udpSock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
-    threads = []
+
     try:
         threads.append (threading.Thread(target=keepAliveListener, args=(udpSock, LOCAL_IP, dict,)))
         # thread.start_new_thread( keepAliveListener, (udpSock, LOCAL_IP, dict, ) )
@@ -90,11 +97,12 @@ def UDPServer(dict):
     # while 1:
     #    time.sleep(100)
     #    pass
-    threads[0].start()
-    threads[1].start()
-    threads[0].join()
-    threads[1].join()
+    for thread in threads:
+        thread.daemon = True
+        thread.start()
+        thread.join()
 
     # Close socket
     udpSock.close()
     print 'UDP listener stopped.'
+
