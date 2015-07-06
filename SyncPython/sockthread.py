@@ -23,7 +23,7 @@ def keepAliveListener(conn, LOCAL_IP, dict):
                 data, addr = conn.recvfrom(1028)
                 #if (addr[0] != LOCAL_IP):
                 # debug printing
-                print "From addr: '%s', msg: '%s'" % (addr[0], data)
+                #print "From addr: '%s', msg: '%s'" % (addr[0], data)
 
                 # filter source MAC address to match.group(1) and IP address to match.group(2)
                 match = re.match('SYNCFILES_MAC_(\d+)_IP_(.*$)', data)
