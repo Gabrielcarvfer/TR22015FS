@@ -86,7 +86,7 @@ def verifica_arquivos_novos(meuip,file_dict, peer_dict, fileFolderName, PORT):
                 if listaRes[i] == 1:
                     print listaPasta[i] + " eh novo!\n"
                     # pra cada ip
-                    for key in peer_dict
+                    for key in peer_dict:
                         if peer_dict[key] != meuip:
                             # manda uma mensagem pra dizer que qr mandar um arquivo e espera resposta
                             sock = socket.socket(socket.AF_INET, # Internet
