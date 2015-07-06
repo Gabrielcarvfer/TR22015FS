@@ -169,6 +169,8 @@ class websock:
                     #father_dir = filter(str.isalnum, father_dir)
                     #new_dir = filter(str.isalnum, new_dir)
                     p = os.path.dirname( father_dir + '/' + new_dir+ '/')
+		    print father_dir
+		    print new_dir
                     if not os.path.exists(p):
                        os.makedirs(p)
                    #print "Erro"
@@ -190,8 +192,8 @@ class websock:
                     new_file = new_file.replace("%2F", "/")
                     new_file = new_file.replace("%5C", "/")
                     new_file = new_file.replace("%3A", ":")
-                    #print file_dir
-                    #print new_file
+                    print file_dir
+                    print new_file
                     if os.path.isfile(new_file):
                         shutil.copy2(new_file,file_dir)
 
@@ -226,7 +228,7 @@ def mainpage( str ):
     tree = '<ul>'
 
     for path, dirs, files in os.walk('./webpage/syncedFiles'):
-        lining = path.count('\\')
+        lining = path.count('/')
         for x in range (0,lining-1):
             tree += '<ul>'
         tree +='<li>'+ os.path.basename(path) 
@@ -235,7 +237,7 @@ def mainpage( str ):
             tree += '<li><a href=http://localhost:8080/'+os.path.basename(path)+'/'+f+' target="_blank">'+f+'</a></li>'
         tree += '</li>'
         for x in range (0,lining):
-            tree+= '</ul></ul>'
+            tree+= '</ul>'
     tree+= '</ul>'
 
     body = """ <body> <div> <p>Criar novo diretorio</p>
@@ -284,7 +286,7 @@ def mainpage( str ):
     
     for path, dirs, files in os.walk('./webpage/syncedFiles'):
         for f in files:
-            body +='<option value='+ os.path.abspath(path)+'\\'+f+ '>' + os.path.abspath(path)+'\\'+f + '</option>'
+            body +='<option value='+ os.path.abspath(path)+'/'+f+ '>' + os.path.abspath(path)+'/'+f + '</option>'
 
 
     body += """\  
