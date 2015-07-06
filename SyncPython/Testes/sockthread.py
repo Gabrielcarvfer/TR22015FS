@@ -66,12 +66,7 @@ def keepAliveSend(conn, LOCAL_IP):
         time.sleep(1)
 
 
-def UDPServer(dict):
-    # workaround to get local IP
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("gmail.com", 80))
-    LOCAL_IP = s.getsockname()[0]
-    s.close()
+def UDPServer(dict, LOCAL_IP):
 
     # Create socket and bind to address
     udpSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
