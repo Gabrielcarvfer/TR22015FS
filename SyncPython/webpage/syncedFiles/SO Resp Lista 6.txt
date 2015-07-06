@@ -1,0 +1,31 @@
+Lista 6:
+
+4) sim (perdi essa)
+
+5) cada processador tem sua copia do SO -> disperdicio de espaco
+melhorar? deixar uma copia do SO mas replicar as estruturas de gerencia do SO: fila proc pronto, tabela paginas, tabela arq abertos, 
+
+mestre-escravo implementa balanceamento de carga: uma CPU nao fica sobrecarregada c outra ociosa
+uma copia das estruturas de gerencia do SO: nao acontece de um proc fazer mta falta de pagina com outro q esta com memoria livre.
+resolve problema de conteudo em cada proc (onde um mesmo conteudo pode estar na memoria de varios processadores)
+
+6) res problema de espera ocupada
+ocupado barr -> se bloq 1 unidade de tempo -> ocupado barramento -> se bloq 2 unidades -> ocupado de novo -> se bloq por 4 -> etc
+
+7) continua tendo so uma estrutura de gerencia, mas todos proc podem manipular as estruturas
+vantagem: desempenho melhor do q só um cara rsponsavel por gerenciar tudo. todos executam  SO e usuario
+desvant: se impl nao for bem gerenciada, pode entrar em situacao de deadlock, starvation
+
+8) semelhancas: ambas sao maq tipo multiprocessadas -> varios proc compartilham seu uico bloco mem. NUMA: alem da mem principal, cada um tem sua memoria cache -> mais rapida
+UMA: nao tem, entao tudo na RAM
+
+9) migacao proc: escalonar proc msm dps deles ja terem sido inciiados. ate entao proc era escalonado, roda ate acabar.
+migracao: rodar proc, de repente transfere pra outro processador pra continuar executando
+multicomputadores: memoria distribuida
+nao é suficiente, pois maquinas podem ser heterogeneas -> tam barramento dif, tamanho regs diferente, quantidade regs dif.
+considerando diferencas arquitetura, migracao de processado eh uma das coisas mais dificil de se fazer p maquinas multicomputadores. -> nao eh suficiente tirar copia (imagem do proc em memoria). a outra arquitetura pode nao conseguir adaptar e continuar processo do mesmo ponto
+tempo p padronizar, empacotar, desempacotar -> leva tempo e esforço
+* com maqs multiprocessadas (unica mem compartilhada), migracao de processo nao faz sentido. arquitetura interna eh a mesma pra todo mundo.
+
+10) p multiproc, org simetrica é mais adequada p operacoes de IO.
+entre multicomp e multiproc, as multicomp sao mais adequadas, pq elas sao indep. nass simetricas, tem um barramento só. todos processos precisam usar barramento praa chegar na memoria. fisicamente ainda tem um gargalo pq tem uma memoria so. em multicomp, vc pode fazer n operacoes em memoria independentemente.

@@ -15,7 +15,8 @@ class websock:
         self.host = ''   # <-- works on all avaivable network interfaces
         self.port = port
         self.www_dir = 'webpage' # Directory where webpage files are stored
-        self.activate_server()
+	#self.www_dir = ''        
+	self.activate_server()
         self._wait_for_connections()
 
 
@@ -224,23 +225,23 @@ def mainpage( str ):
     header =  """<!DOCTYPE html> <html> <head>Bem vindo, %s!</head>""" %(str)
     tree = '<ul>'
 
-    for path, dirs, files in os.walk('./syncedFiles'):
+    for path, dirs, files in os.walk('./webpage/syncedFiles'):
         lining = path.count('\\')
         for x in range (0,lining-1):
             tree += '<ul>'
         tree +='<li>'+ os.path.basename(path) 
         tree +='<ul>'
         for f in files:
-            tree += '<li><a href=file:///'+os.path.abspath(path)+'/'+f+' target="_blank">'+f+'</a></li>'
+            tree += '<li><a href=http://localhost:8080/'+os.path.basename(path)+'/'+f+' target="_blank">'+f+'</a></li>'
         tree += '</li>'
         for x in range (0,lining):
-            tree+= '</ul>'
+            tree+= '</ul></ul>'
     tree+= '</ul>'
 
     body = """ <body> <div> <p>Criar novo diretorio</p>
 <form  method="POST" ">
 <p>Nome do pai do novo diretorio:<select name="dir">"""
-    for path, dirs, files in os.walk('./syncedFiles'):
+    for path, dirs, files in os.walk('./webpage/syncedFiles'):
         body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
     body += """\  
     </select></p>
@@ -252,8 +253,8 @@ def mainpage( str ):
     <p>Deletar diretorio</p>
     <form  method="POST" ">
     <p>Diretorio a ser deletado(e todos os arquivos):<select name="delete_dir">"""
-    for path, dirs, files in os.walk('./syncedFiles'):
-        if path != './info':
+    for path, dirs, files in os.walk('./webpage/syncedFiles'):
+        if path != './webpage/syncedFiles':
             body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
     body += """\  
     </select></p>
@@ -266,7 +267,7 @@ def mainpage( str ):
     <p>Diretorio onde o arquivo vai ser alocado:</p>
     <select name="fileDir">
     """
-    for path, dirs, files in os.walk('./syncedFiles'):
+    for path, dirs, files in os.walk('./webpage/syncedFiles'):
         body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
     body +=  """\
     </select>
@@ -281,7 +282,7 @@ def mainpage( str ):
     <form  method="POST" ">
     <p>Selecione o arquivo a ser deletado:<select name="file_delete">"""
     
-    for path, dirs, files in os.walk('./syncedFiles'):
+    for path, dirs, files in os.walk('./webpage/syncedFiles'):
         for f in files:
             body +='<option value='+ os.path.abspath(path)+'\\'+f+ '>' + os.path.abspath(path)+'\\'+f + '</option>'
 
@@ -295,8 +296,8 @@ def mainpage( str ):
     <p>Deletar diretorio</p>
     <form  method="POST" ">
     <p>Diretorio a ser deletado(e todos os arquivos):<select name="delete_dir">"""
-    for path, dirs, files in os.walk('./syncedFiles'):
-        if path != './syncedFiles':
+    for path, dirs, files in os.walk('./webpage/syncedFiles'):
+        if path != './webpage/syncedFiles':
             body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
     body += """\  
     </select></p>
@@ -304,12 +305,6 @@ def mainpage( str ):
     </form>
     </div>
 
-
-
-
-
-
-            
      </body>
     </html>
 
