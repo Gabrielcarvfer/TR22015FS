@@ -5,10 +5,18 @@ from index_files import indexFiles
 import threading
 import time
 import signal
+import socket
 
 threads = []
 
 def main():
+
+    # workaround to get local IP
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("gmail.com", 80))
+    LOCAL_IP = s.getsockname()[0]
+    s.close()
+
     peer_dict = {}
     file_dict = {}
 
@@ -24,7 +32,7 @@ def main():
 
         #trying to start udp server
         try:
-            threads.append( threading.Thread(target=UDPServer, args=(peer_dict,)))
+            threads.append( threading.Thread(target=UDPServer, args=(peer_dict, LOCAL_IP, )))
             threads[1].daemon = True
             threads[1].start()
             print 'Started udp broadcaster...'
