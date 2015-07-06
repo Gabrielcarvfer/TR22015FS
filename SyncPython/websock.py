@@ -156,14 +156,13 @@ class websock:
                     login = some_parameters[1]
                 
                 if tipo == "dir":
-                    print "estou no dir"
                     new_dir = some_parameters[2]
-                    print new_dir
+                    #print new_dir
                     father_dir = some_parameters[1].split('&')
                     father_dir = father_dir[0]
                     father_dir = father_dir.replace("%2F", "/");
                     father_dir = father_dir.replace("%5C", "/");
-                    print father_dir
+                    #print father_dir
 
                     re.sub(r'\W+', '', new_dir)
                     #father_dir = filter(str.isalnum, father_dir)
@@ -176,31 +175,39 @@ class websock:
 
                 if tipo == "delete_dir":
                     delete_dir = some_parameters[1]
-                    delete_dir = delete_dir.replace("%2F", "/");
-                    delete_dir = delete_dir.replace("%5C", "/");
-                    print delete_dir
+                    delete_dir = delete_dir.replace("%2F", "/")
+                    delete_dir = delete_dir.replace("%5C", "/")
+                    #print delete_dir
                     shutil.rmtree(delete_dir)
+
+                if tipo == "fileDir":
+                    new_file = some_parameters[2]
+                    file_dir = some_parameters[1].split('&')
+                    file_dir = file_dir[0]
+                    file_dir = file_dir.replace("%2F", "/")
+                    file_dir = file_dir.replace("%5C", "/")
+                    new_file = new_file.replace("%2F", "/")
+                    new_file = new_file.replace("%5C", "/")
+                    new_file = new_file.replace("%3A", ":")
+                    #print file_dir
+                    #print new_file
+                    if os.path.isfile(new_file):
+                        shutil.copy2(new_file,file_dir)
+
+                if tipo == 'file_delete':
+                    file_address = some_parameters[1]
+                    file_address = file_address.replace("%2F", "/")
+                    file_address = file_address.replace("%5C", "/")
+                    file_address = file_address.replace("%3A", ":")
+                    if os.path.isfile(file_address):
+                        os.remove(file_address)
+                    print file_address
                     
                 file_requested = "Mainpage"
                 file_requested = self.www_dir + file_requested
                 print ("Serving web page [",file_requested,"]")
-              
-                try:
-                    #file_handler = open(file_requested,'rb')
-                    response_content = mainpage(login)
-                    #response_content = file_handler.read()
-                    #file_handler.close()
-
-                    response_headers = self._gen_headers( 200)
-
-                except Exception as e: #in case file was not found, generate 404 page
-                    print ("Warning, file not found. Serving response code 404\n", e)
-                    response_headers = self._gen_headers( 404)
-
-                    if (request_method == 'GET'):
-                        response_content = b"<html><body><p>Error 404: File not found</p><p>Python HTTP server</p></body></html>"
-
-
+                response_content = mainpage(login)
+                response_headers = self._gen_headers( 200)
                 server_response =  response_headers.encode()
                 server_response +=  response_content
 
@@ -217,14 +224,14 @@ def mainpage( str ):
     header =  """<!DOCTYPE html> <html> <head>Bem vindo, %s!</head>""" %(str)
     tree = '<ul>'
 
-    for path, dirs, files in os.walk('./info'):
+    for path, dirs, files in os.walk('./syncedFiles'):
         lining = path.count('\\')
         for x in range (0,lining-1):
             tree += '<ul>'
         tree +='<li>'+ os.path.basename(path) 
         tree +='<ul>'
         for f in files:
-            tree += '<li>'+f+'</li>'
+            tree += '<li><a href=file:///'+os.path.abspath(path)+'/'+f+' target="_blank">'+f+'</a></li>'
         tree += '</li>'
         for x in range (0,lining):
             tree+= '</ul>'
@@ -233,7 +240,7 @@ def mainpage( str ):
     body = """ <body> <div> <p>Criar novo diretorio</p>
 <form  method="POST" ">
 <p>Nome do pai do novo diretorio:<select name="dir">"""
-    for path, dirs, files in os.walk('./info'):
+    for path, dirs, files in os.walk('./syncedFiles'):
         body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
     body += """\  
     </select></p>
@@ -245,7 +252,7 @@ def mainpage( str ):
     <p>Deletar diretorio</p>
     <form  method="POST" ">
     <p>Diretorio a ser deletado(e todos os arquivos):<select name="delete_dir">"""
-    for path, dirs, files in os.walk('./info'):
+    for path, dirs, files in os.walk('./syncedFiles'):
         if path != './info':
             body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
     body += """\  
@@ -259,7 +266,7 @@ def mainpage( str ):
     <p>Diretorio onde o arquivo vai ser alocado:</p>
     <select name="fileDir">
     """
-    for path, dirs, files in os.walk('./info'):
+    for path, dirs, files in os.walk('./syncedFiles'):
         body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
     body +=  """\
     </select>
@@ -268,6 +275,41 @@ def mainpage( str ):
             <input type="submit" value="Send" />
             </form>
             </div>
+
+
+    <div> <p>Deletar arquivo</p>
+    <form  method="POST" ">
+    <p>Selecione o arquivo a ser deletado:<select name="file_delete">"""
+    
+    for path, dirs, files in os.walk('./syncedFiles'):
+        for f in files:
+            body +='<option value='+ os.path.abspath(path)+'\\'+f+ '>' + os.path.abspath(path)+'\\'+f + '</option>'
+
+
+    body += """\  
+    </select></p>
+       <input type="submit" value="Submit">
+    </form>
+    </div>
+    <div>
+    <p>Deletar diretorio</p>
+    <form  method="POST" ">
+    <p>Diretorio a ser deletado(e todos os arquivos):<select name="delete_dir">"""
+    for path, dirs, files in os.walk('./syncedFiles'):
+        if path != './syncedFiles':
+            body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
+    body += """\  
+    </select></p>
+    <input type="submit" value="Submit">
+    </form>
+    </div>
+
+
+
+
+
+
+            
      </body>
     </html>
 
