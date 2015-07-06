@@ -5,7 +5,7 @@ from index_files import indexFiles
 import threading
 import time
 import signal
-from exchange_files import *
+import socket
 
 threads = []
 
