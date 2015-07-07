@@ -1,29 +1,21 @@
 #!/usr/bin/env python
 from websock import websock
-from sockthread import UDPServer
-from index_files import indexFiles
+from sockthread import UDPServer, getLocalIP, getSockMac
+from index_files import indexFiles, dumpDictionaries, recoverDictionaries, mergeFileDictionaries, readDictionary, downloadFileRemoteDictionary
 import threading
 import time
-import signal
-import socket
-
 threads = []
 
 def main():
-
-    # workaround to get local IP
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("gmail.com", 80))
-    LOCAL_IP = s.getsockname()[0]
-    s.close()
-
+    LOCAL_IP = getLocalIP()
+    LOCAL_MAC = getSockMac()
     peer_dict = {}
     file_dict = {}
 
     try:
         #trying to start http server
         try:
-            threads.append(threading.Thread(target=websock,args=(8080,)))
+            threads.append(threading.Thread(target=websock,args=(8080,LOCAL_IP)))
             threads[0].daemon = True
             threads[0].start()
             print 'Started httpserver...'
@@ -41,17 +33,27 @@ def main():
 
         #trying to start file server
         try:
-            indexFiles('syncedFiles', file_dict)
+            indexFiles('webpage/syncedFiles', file_dict, LOCAL_MAC)
             pass
         except:
             pass
 
+        dumpDictionaries(file_dict, peer_dict)
+
+        (file_dict, peer_dict) = recoverDictionaries()
+
         while True:
             #for files in file_dict:
-            #    print file_dict[files]
+                #print file_dict[files]
+
             keys = copy_keys(peer_dict)
             for k in keys:
-                print peer_dict[k]
+                if LOCAL_MAC == k:
+                    continue
+                else:
+                    print peer_dict[k]
+                    remote_file_dict = readDictionary(downloadFileRemoteDictionary(k, peer_dict[k]))
+                    mergeFileDictionaries(file_dict, remote_file_dict)
             time.sleep(10)
 
         threads[0].join()

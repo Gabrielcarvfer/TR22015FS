@@ -2,46 +2,51 @@
 
 <html>
  
-<head>Bem vindo Usuario!</head>
+    <head>
 
-   <body>
+    <link href="http://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet" />
+    <link href="default.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
+    </head>
 
-<div>
-<p>Criar novo diretório</p>
-<form  method="POST" action="../cgi-bin/add_dir.py">
-<p>Nome do pai do novo diretório:
-<select name="dir">
-<option value="pai">Arquivos</option>
-</select></p>
-<p>Nome do novo diretório:<input type="text"name="dirName"></p>
-<input type="submit" value="Submit">
-</form>
-</div>
+     <body>
+           <div id = "header-wrapper">
+               <div id="header" class="container">
+                    Bem vindo Usuario!
+                </div>
+           </div>
+           <div class="container">
+                <div>
+                <p>Criar novo diretório</p>
+                <form  method="POST" action="../cgi-bin/add_dir.py">
+                <p>Nome do pai do novo diretório:
+                <select name="dir">
+                <option value="pai">Arquivos</option>
+                </select></p>
+                <p>Nome do novo diretório:<input type="text"name="dirName"></p>
+                <input type="submit" value="Submit">
+                </form>
+                </div>
 
     
-	<div>
-<p>Adicionar arquivo</p>
+	                <div>
+                <p>Adicionar arquivo</p>
 
-<form  method="POST" action="../cgi-bin/add_file.py">
+                <form  method="POST" action="../cgi-bin/add_file.py">
 
-<p>Diretório onde o arquivo vai ser alocado:</p>
-<select name="fileDir">
-<option value="Arquivos">Arquivos</option>
-</select>
-</p>
+                <p>Diretório onde o arquivo vai ser alocado:</p>
+                <select name="fileDir">
+                <option value="Arquivos">Arquivos</option>
+                </select>
+                </p>
 
-	<p>Escolha o arquivo:<input type="file" name="somename" size="chars">
-	</p>
+	                <p>Escolha o arquivo:<input type="file" name="somename" size="chars">
+	                </p>
 
-	<input type="submit" value="Send">
-	</p>
-	</form>
-	</div>
-
-  
-
- </body>
-
-
-
+	                <input type="submit" value="Send">
+	                </p>
+	                </form>
+	                </div>
+               </div>
+     </body>
 </html>

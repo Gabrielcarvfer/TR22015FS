@@ -10,9 +10,9 @@ import re
 class websock:
     """ Class describing a simple HTTP server objects."""
 
-    def __init__(self, port = 8080):
+    def __init__(self, port = 8080, host = ''):
         """ Constructor """
-        self.host = ''   # <-- works on all avaivable network interfaces
+        self.host = host   # <-- works on all avaivable network interfaces
         self.port = port
         self.www_dir = 'webpage' # Directory where webpage files are stored
         #self.www_dir = ''
@@ -211,7 +211,7 @@ class websock:
                 file_requested = "Mainpage"
                 file_requested = self.www_dir + file_requested
                 print ("Serving web page [",file_requested,"]")
-                response_content = mainpage(login)
+                response_content = self.mainpage(login)
                 response_headers = self._gen_headers( 200)
                 server_response =  response_headers.encode()
                 server_response +=  response_content
@@ -225,103 +225,110 @@ class websock:
                 print("Unknown HTTP request method:", request_method)
 
 
-def mainpage( str ):
-    header =  """<!DOCTYPE html> <html> <head>Bem vindo, %s!</head>""" %(str)
-    tree = '<ul>'
+    def mainpage(self,  str ):
+        header =  """<!DOCTYPE html> <html> <head>Bem vindo, %s!</head>
+        <head>
 
-    for path, dirs, files in os.walk('./webpage/syncedFiles'):
-        lining = path.count('/')
-        for x in range (0,lining-1):
-            tree += '<ul>'
-        tree +='<li>'+ os.path.basename(path) 
-        tree +='<ul>'
-        for f in files:
-            tree += '<li><a href=http://localhost:8080/'+os.path.basename(path)+'/'+f+' target="_blank">'+f+'</a></li>'
-        tree += '</li>'
-        for x in range (0,lining):
-            tree+= '</ul>'
-    tree+= '</ul>'
+        <link href="http://fonts.googleapis.com/css?family=Didact+Gothic" rel="stylesheet" />
+        <link href="/css/default.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
+        </head>
 
-    body = """ <body> <div> <p>Criar novo diretorio</p>
-<form  method="POST" ">
-<p>Nome do pai do novo diretorio:<select name="dir">"""
-    for path, dirs, files in os.walk('./webpage/syncedFiles'):
-        body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
-    body += """\  
-    </select></p>
-    <p>Nome do novo diretorio:<input type="text"name="dirName"></p>
-    <input type="submit" value="Submit">
-    </form>
-    </div>
-    <div>
-    <p>Deletar diretorio</p>
+         <body>
+                   <div id="header" class="container">
+                        <img src="/images/header-bg.jpg"></img>
+                    </div>
+
+               <div class="container">
+        """ %(str)
+        tree = '<ul>'
+
+        server_address_string = 'http://%s:%s/' % (self.host, self.port)
+        for path, dirs, files in os.walk('./webpage/syncedFiles'):
+            lining = path.count('\\')
+            for x in range (0,lining-1):
+                tree += '<ul>'
+            tree +='<li>'+ os.path.basename(path)
+            tree +='<ul>'
+            for f in files:
+                #tree += '<li><a href=http://localhost:8080/'+os.path.basename(path)+'/'+f+' target="_blank">'+f+'</a></li>'
+                tree += '<li><a href='+server_address_string+os.path.basename(path)+'/'+f+' target="_blank">'+f+'</a></li>'
+            tree += '</li>'
+            for x in range (0,lining):
+                tree+= '</ul>'
+        tree+= '</ul>'
+
+        body = """ <div> <p>Criar novo diretorio</p>
     <form  method="POST" ">
-    <p>Diretorio a ser deletado(e todos os arquivos):<select name="delete_dir">"""
-    for path, dirs, files in os.walk('./webpage/syncedFiles'):
-        if path != './webpage/syncedFiles':
+    <p>Nome do pai do novo diretorio:<select name="dir">"""
+        for path, dirs, files in os.walk('./webpage/syncedFiles'):
             body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
-    body += """\  
-    </select></p>
-    <input type="submit" value="Submit">
-    </form>
-    </div>	<div>
-    
-    <p>Adicionar arquivo</p>
-    <form " method="post" >
-    <p>Diretorio onde o arquivo vai ser alocado:</p>
-    <select name="fileDir">
-    """
-    for path, dirs, files in os.walk('./webpage/syncedFiles'):
-        body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
-    body +=  """\
-    </select>
-    </p>     
-    <input type="text" name="upfile" /> 
-            <input type="submit" value="Send" />
-            </form>
-            </div>
+        body += """\
+        </select></p>
+        <p>Nome do novo diretorio:<input type="text"name="dirName"></p>
+        <input type="submit" value="Submit">
+        </form>
+        </div>
+        <div>
+        <p>Deletar diretorio</p>
+        <form  method="POST" ">
+        <p>Diretorio a ser deletado(e todos os arquivos):<select name="delete_dir">"""
+        for path, dirs, files in os.walk('./webpage/syncedFiles'):
+            if path != './webpage/syncedFiles':
+                body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
+        body += """\
+        </select></p>
+        <input type="submit" value="Submit">
+        </form>
+        </div>	<div>
 
-
-    <div> <p>Deletar arquivo</p>
-    <form  method="POST" ">
-    <p>Selecione o arquivo a ser deletado:<select name="file_delete">"""
-    
-    for path, dirs, files in os.walk('./webpage/syncedFiles'):
-        for f in files:
-            body +='<option value='+ os.path.abspath(path)+'/'+f+ '>' + os.path.abspath(path)+'/'+f + '</option>'
-
-
-    body += """\  
-    </select></p>
-       <input type="submit" value="Submit">
-    </form>
-    </div>
-    <div>
-    <p>Deletar diretorio</p>
-    <form  method="POST" ">
-    <p>Diretorio a ser deletado(e todos os arquivos):<select name="delete_dir">"""
-    for path, dirs, files in os.walk('./webpage/syncedFiles'):
-        if path != './webpage/syncedFiles':
+        <p>Adicionar arquivo</p>
+        <form " method="post" >
+        <p>Diretorio onde o arquivo vai ser alocado:</p>
+        <select name="fileDir">
+        """
+        for path, dirs, files in os.walk('./webpage/syncedFiles'):
             body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
-    body += """\  
-    </select></p>
-    <input type="submit" value="Submit">
-    </form>
-    </div>
+        body +=  """\
+        </select>
+        </p>
+        <input type="text" name="upfile" />
+                <input type="submit" value="Send" />
+                </form>
+                </div>
 
-     </body>
+
+        <div> <p>Deletar arquivo</p>
+        <form  method="POST" ">
+        <p>Selecione o arquivo a ser deletado:<select name="file_delete">"""
+
+        for path, dirs, files in os.walk('./webpage/syncedFiles'):
+            for f in files:
+                body +='<option value='+ os.path.abspath(path)+'/'+f+ '>' + os.path.abspath(path)+'/'+f + '</option>'
+
+
+        body += """\
+        </select></p>
+           <input type="submit" value="Submit">
+        </form>
+        </div>
+        <div>
+        <p>Deletar diretorio</p>
+        <form  method="POST" ">
+        <p>Diretorio a ser deletado(e todos os arquivos):<select name="delete_dir">"""
+        for path, dirs, files in os.walk('./webpage/syncedFiles'):
+            if path != './webpage/syncedFiles':
+                body +='<option value='+ path + '>' + os.path.basename(path) + '</option>'
+        body += """\
+        </select></p>
+        <input type="submit" value="Submit">
+        </form>
+        </div>
+     </div>
+         </body>
     </html>
 
-    """
-# <form enctype="multipart/form-data" " method="post" >
-    return header+tree+body
-    
-
-def graceful_shutdown(sig, dummy):
-    """ This function shuts down the server. It's triggered
-    by SIGINT signal """
-    s.shutdown() #shut down the server
-    import sys
-    sys.exit(1)
-    
+        """
+    # <form enctype="multipart/form-data" " method="post" >
+        return header+tree+body
 
