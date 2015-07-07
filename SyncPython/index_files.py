@@ -13,6 +13,8 @@ def indexFiles(directory, file_dict, local_mac):
 
         for filename in files:
             file_path = os.path.join(root, filename)
+            if os.sep == '\\':
+                file_path = file_path.replace('\\', '/')
             #print file_path
             m = hashlib.md5(file_path).digest()
             #print m

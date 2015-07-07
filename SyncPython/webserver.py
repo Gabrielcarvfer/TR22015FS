@@ -48,13 +48,13 @@ def main():
 
             keys = copy_keys(peer_dict)
             for k in keys:
-                if LOCAL_MAC == k:
+                if ((('%s' % LOCAL_MAC) == k) | (peer_dict[k] == LOCAL_IP)):
                     continue
                 else:
                     print peer_dict[k]
                     remote_file_dict = readDictionary(downloadFileRemoteDictionary(k, peer_dict[k]))
-                    mergeFileDictionaries(file_dict, remote_file_dict)
-            time.sleep(10)
+                    mergeFileDictionaries(file_dict, remote_file_dict, LOCAL_MAC)
+            time.sleep(2)
 
         threads[0].join()
         threads[1].join()
