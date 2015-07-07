@@ -13,24 +13,11 @@ def indexFiles(directory, file_dict, local_mac):
             #list_file_path = os.path.join(root, 'my-directory-list.txt')
             #print('list_file_path = ' + list_file_path)
 
-<<<<<<< HEAD
-        for filename in files:
-            file_path = os.path.join(root, filename)
-            if os.sep == '\\':
-                file_path = file_path.replace('\\', '/')
-            #print file_path
-            m = hashlib.md5(file_path).digest()
-            #print m
-            owner_peers = []
-            owner_peers.append(local_mac)
-            owner_peers = {}
-            owner_peers[local_mac] = 1
-            file_dict['%s' % m] = (file_path, owner_peers )
-=======
             for filename in files:
                 file_path = os.path.join(root, filename)
                 if os.sep == '\\':
                     file_path = file_path.replace('\\', '/')
+                file_path = file_path.replace('webpage', '')
                 #print file_path
                 m = hashlib.md5(file_path).digest()
                 #print m
@@ -39,8 +26,7 @@ def indexFiles(directory, file_dict, local_mac):
                 owner_peers = {}
                 owner_peers[local_mac] = 1
                 file_dict['%s' % m] = (file_path, owner_peers )
-        time.sleep(5)
->>>>>>> 776b265b166593b6bc442100681c13f21d25f6b8
+        time.sleep(2)
 
 def dumpDictionaries(file_dict, peer_dict):
     with open('webpage/file_dict.bd', 'w') as handle:
@@ -72,27 +58,26 @@ def mergeFileDictionaries(local_file_dict, remote_file_dict, local_mac):
         else:
             print 'remote file %s doesnt exists here, adding to local dictionary' % (remote_file_dict[file][0])
             local_file_dict[file] = remote_file_dict[file]
-    return local_file_dict
 
 #receives MAC and IP
 def downloadRemoteDictionary(k, peer_ip):
     print peer_ip
     with open('temp/%s.bd' %k, 'wb') as f:
+        print 'http://' + peer_ip + ':8080/file_dict.bd'
         f.write(urllib2.urlopen('http://' + peer_ip + ':8080/file_dict.bd').read())
         f.close()
     return 'temp/%s.bd' % k
 
 def downloadRemoteFile(file, peer_ip):
     with open('%s' % file, 'wb') as f:
+        print 'http://' + peer_ip + ':8080' + file
         f.write(urllib2.urlopen('http://' + peer_ip + ':8080' + file ).read())
         f.close()
 
 def syncFilesThread(file_dict, peer_dict, LOCAL_MAC):
-    dumpDictionaries(file_dict, peer_dict)
-
     #(file_dict, peer_dict) = recoverDictionaries()
-
     while True:
+        dumpDictionaries(file_dict, peer_dict)
         for files in file_dict:
             print file_dict[files]
 
@@ -102,7 +87,8 @@ def syncFilesThread(file_dict, peer_dict, LOCAL_MAC):
                 continue
             else:
                 #print peer_dict[k]
-                remote_file_dict = readDictionary(downloadRemoteDictionary(k, peer_dict[k]))
+                downloadRemoteDictionary(k, peer_dict[k])
+                remote_file_dict = readDictionary('temp/%s.bd' % k)
                 #download all remote files than merge file dictionaries
                 for files in remote_file_dict:
                     if remote_file_dict[files][1].has_key(k):
@@ -110,7 +96,7 @@ def syncFilesThread(file_dict, peer_dict, LOCAL_MAC):
                     else:
                         downloadRemoteFile(remote_file_dict[files][0], peer_dict[remote_file_dict[files][1]])
                 mergeFileDictionaries(file_dict, remote_file_dict, LOCAL_MAC)
-        time.sleep(10)
+        time.sleep(5)
 
 def copy_keys(object):
     keys = object.keys()
