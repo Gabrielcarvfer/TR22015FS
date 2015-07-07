@@ -75,11 +75,21 @@ def syncFilesThread():
     #recoverDictionaries()
     while True:
         dumpDictionaries()
+<<<<<<< HEAD
         #for files in gvar.file_dict:
             #print gvar.file_dict[files]
 
         keys = copy_keys(gvar.peer_dict)
         for k in keys:
+=======
+        file_dict = copy_keys(gvar.file_dict)
+        for files in file_dict:
+            print file_dict[files]
+
+        keys = copy_keys(gvar.peer_dict)
+        for k in keys:
+            #print gvar.mac
+>>>>>>> 1081314d37ec8ebb56d06b277de3052e6d692428
             if ('%s' % gvar.mac) == k:
                 continue
             else:
@@ -88,8 +98,12 @@ def syncFilesThread():
                 remote_file_dict = readDictionary('temp/%s.bd' % k)
                 #download all remote files than merge file dictionaries
                 for files in remote_file_dict:
+<<<<<<< HEAD
                     print remote_file_dict[files]
                     if num(k) in remote_file_dict[files]:
+=======
+                    if k in '%s ' % remote_file_dict[files][1]:
+>>>>>>> 1081314d37ec8ebb56d06b277de3052e6d692428
                         continue
                     else:
                         downloadRemoteFile(remote_file_dict[files][0], gvar.peer_dict[remote_file_dict[files][1]])
