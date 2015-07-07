@@ -53,8 +53,8 @@
 	.container
 	{
 		overflow: hidden;
-		margin: 0em 10%;
-		width: 70%;
+		margin: 0em auto;
+		width: 1200px;
 	}
 	
 /*********************************************************************************/

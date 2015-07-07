@@ -4,7 +4,6 @@ import hashlib
 import pickle
 import urllib2
 
-#indexFiles('syncedFiles', file_dict)
 def indexFiles(directory, file_dict, local_mac):
     #print 'Indexing...'
     for root, subdirs, files in os.walk(directory):
@@ -19,6 +18,8 @@ def indexFiles(directory, file_dict, local_mac):
             #print m
             owner_peers = []
             owner_peers.append(local_mac)
+            owner_peers = {}
+            owner_peers[local_mac] = 1
             file_dict['%s' % m] = (file_path, owner_peers )
 
 def dumpDictionaries(file_dict, peer_dict):
@@ -39,11 +40,15 @@ def readDictionary(dictionary_path):
         dict = pickle.load(handle)
     return dict
 
-def mergeFileDictionaries(local_file_dict, remote_file_dict):
+def mergeFileDictionaries(local_file_dict, remote_file_dict, local_mac):
     for file in remote_file_dict:
         if local_file_dict.has_key(file):
-            print 'remote file %s already exists here, adding remote peer %s as owner' % (local_file_dict[file][0], remote_file_dict[file][1])
-            local_file_dict[file][1].append(remote_file_dict[file][1])
+            if remote_file_dict[file][1].has_key(local_mac):
+                #if file already is registered with local mac, don't do anything
+                continue
+            else:
+                print 'remote file %s already exists here, adding remote peer %s as owner' % (local_file_dict[file][0], remote_file_dict[file][1])
+                local_file_dict[file][1].update(remote_file_dict[file][1])
         else:
             print 'remote file %s doesnt exists here, adding to local dictionary' % (remote_file_dict[file][0])
             local_file_dict[file] = remote_file_dict[file]
