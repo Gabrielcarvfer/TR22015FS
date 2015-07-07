@@ -24,11 +24,11 @@ def indexFiles(directory):
         time.sleep(2)
 
 def dumpDictionaries():
-    with open('webpage/file_dict.bd', 'w') as handle:
+    with open('webpage/file_dict.bd', 'wb') as handle:
         file_dict = copy_keys(gvar.file_dict)
         pickle.dump(file_dict, handle)
         handle.close()
-    with open('webpage/peer_dict.bd', 'w') as handle:
+    with open('webpage/peer_dict.bd', 'wb') as handle:
         peer_dict = copy_keys(gvar.file_dict)
         pickle.dump(peer_dict, handle)
         handle.close()
@@ -39,7 +39,7 @@ def recoverDictionaries():
     return()
 
 def readDictionary(dictionary_path):
-    with open(dictionary_path, 'r') as handle:
+    with open(dictionary_path, 'rb') as handle:
         dict = pickle.load(handle)
     return dict
 
@@ -60,7 +60,7 @@ def mergeFileDictionaries(remote_file_dict):
 def downloadRemoteDictionary(k, peer_ip):
     print peer_ip
     with open('temp/%s.bd' %k, 'wb') as f:
-        print 'http://' + peer_ip + ':8080/file_dict.bd'
+        #print 'http://' + peer_ip + ':8080/file_dict.bd'
         f.write(urllib2.urlopen('http://' + peer_ip + ':8080/file_dict.bd').read())
         f.close()
     return 'temp/%s.bd' % k
@@ -75,12 +75,12 @@ def syncFilesThread():
     #recoverDictionaries()
     while True:
         dumpDictionaries()
-        for files in gvar.file_dict:
-            print gvar.file_dict[files]
+        #for files in gvar.file_dict:
+            #print gvar.file_dict[files]
 
         keys = copy_keys(gvar.peer_dict)
         for k in keys:
-            if gvar.mac == k:
+            if ('%s' % gvar.mac) == k:
                 continue
             else:
                 #print gvar.peer_dict[k]
@@ -88,16 +88,23 @@ def syncFilesThread():
                 remote_file_dict = readDictionary('temp/%s.bd' % k)
                 #download all remote files than merge file dictionaries
                 for files in remote_file_dict:
-                    if remote_file_dict[files][1].has_key(k):
+                    print remote_file_dict[files]
+                    if num(k) in remote_file_dict[files]:
                         continue
                     else:
                         downloadRemoteFile(remote_file_dict[files][0], gvar.peer_dict[remote_file_dict[files][1]])
-                mergeFileDictionaries(gvar.file_dict, remote_file_dict, gvar.mac)
+                mergeFileDictionaries(remote_file_dict)
         time.sleep(5)
 
 def copy_keys(object):
     keys = object.keys()
     return keys
+
+def num(s):
+    try:
+        return int(s)
+    except ValueError:
+        return float(s)
 #print 'Files...'
 #for files ingvar.file_dict:
 #    printgvar.file_dict[files]
