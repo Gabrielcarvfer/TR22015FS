@@ -64,16 +64,16 @@ def mergeFileDictionaries(remote_file_dict):
 
 #receives MAC and IP
 def downloadRemoteDictionary(k, peer_ip):
-    try:
+    #try:
         print peer_ip
         with open('temp/%s.bd' %k, 'wb') as f:
             #print 'http://' + peer_ip + ':8080/file_dict.bd'
             f.write(urllib2.urlopen('http://' + peer_ip + ':8080/file_dict.bd').read())
             f.close()
         return 'temp/%s.bd' % k
-    except:
-        pass
-        return 'f'
+    #except:
+    #    pass
+    #    return 'f'
 
 def downloadRemoteFile(file, peer_ip):
     try:
@@ -110,17 +110,16 @@ def syncFilesThread():
                         else:
                             mac = (remote_file_dict[files][1].keys()[0])
                             remote_ip = ''
-                            while remote_ip is '':
-                                try:
-                                    for peer in local_peers:
-                                        npeer = num(peer[0])
-                                        if npeer ==  mac:
-                                            remote_ip = peer[1]
 
-                                    #local_peers.keys()
-                                    #remote_ip = local_peers[mac]
-                                except:
-                                    pass
+                            for peer in local_peers:
+                                  mmac = ('%s' % mac)
+                                  if peer[0] in mmac:
+                                      remote_ip = local_peers[mmac]
+                                      break
+
+                                #local_peers.keys()
+                                #remote_ip = local_peers[mac]
+
                             print remote_ip
                             downloadRemoteFile(remote_file_dict[files][0], remote_ip)
                     mergeFileDictionaries(remote_file_dict)
