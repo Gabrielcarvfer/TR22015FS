@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 from websock import websock
 from sockthread import UDPServer, getLocalIP, getSockMac
-from index_files import indexFiles, dumpDictionaries, recoverDictionaries, mergeFileDictionaries, readDictionary, downloadFileRemoteDictionary
+from index_files import indexFiles, syncFilesThread
 import threading
-import time
+
 threads = []
 
 def main():
@@ -31,33 +31,31 @@ def main():
         except:
             print 'Could not start udpserver'
 
-        #trying to start file server
+        #trying to start file indexing server
         try:
+            threads.append( threading.Thread(target=indexFiles, args=('webpage/syncedFiles', file_dict, LOCAL_MAC, )))
+            threads[2].daemon = True
+            threads[2].start()
             indexFiles('webpage/syncedFiles', file_dict, LOCAL_MAC)
             pass
         except:
             pass
 
-        dumpDictionaries(file_dict, peer_dict)
+        #trying to start file sync server
+        try:
+            threads.append( threading.Thread(target=syncFilesThread, args=(file_dict, peer_dict, LOCAL_MAC, )))
+            threads[3].daemon = True
+            threads[3].start()
+            pass
+        except:
+            pass
 
-        (file_dict, peer_dict) = recoverDictionaries()
 
-        while True:
-            #for files in file_dict:
-                #print file_dict[files]
-
-            keys = copy_keys(peer_dict)
-            for k in keys:
-                if LOCAL_MAC == k:
-                    continue
-                else:
-                    print peer_dict[k]
-                    remote_file_dict = readDictionary(downloadFileRemoteDictionary(k, peer_dict[k]))
-                    mergeFileDictionaries(file_dict, remote_file_dict)
-            time.sleep(10)
 
         threads[0].join()
         threads[1].join()
+        threads[2].join()
+        threads[3].join()
 
 
     except KeyboardInterrupt:
@@ -65,9 +63,7 @@ def main():
         import sys
         sys.exit(1)
 
-def copy_keys(object):
-    keys = object.keys()
-    return keys
+
 
 if __name__ == '__main__':
     main()

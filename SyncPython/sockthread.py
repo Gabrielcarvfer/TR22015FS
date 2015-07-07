@@ -59,7 +59,7 @@ def keepAliveSend(conn, LOCAL_IP):
 
 def keepAlivePeers(dict):
     while True:
-        time.sleep(5)
+        time.sleep(20)
         dict = {}
 
 def getSockMac():
