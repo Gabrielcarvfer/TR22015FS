@@ -24,14 +24,17 @@ def indexFiles(directory):
         time.sleep(2)
 
 def dumpDictionaries():
-    with open('webpage/file_dict.bd', 'wb') as handle:
-        file_dict = gvar.file_dict
-        pickle.dump(file_dict, handle)
-        handle.close()
-    with open('webpage/peer_dict.bd', 'wb') as handle:
-        peer_dict = gvar.file_dict
-        pickle.dump(peer_dict, handle)
-        handle.close()
+    try:
+        with open('webpage/file_dict.bd', 'wb') as handle:
+            file_dict = gvar.file_dict
+            pickle.dump(file_dict, handle)
+            handle.close()
+        with open('webpage/peer_dict.bd', 'wb') as handle:
+            peer_dict = gvar.file_dict
+            pickle.dump(peer_dict, handle)
+            handle.close()
+    except:
+        pass
 
 def recoverDictionaries():
     gvar.file_dict = readDictionary('webpage/file_dict.bd')
@@ -39,9 +42,12 @@ def recoverDictionaries():
     return()
 
 def readDictionary(dictionary_path):
-    with open(dictionary_path, 'rb') as handle:
-        dict = pickle.load(handle)
-    return dict
+    try:
+        with open(dictionary_path, 'rb') as handle:
+            dict = pickle.load(handle)
+        return dict
+    except:
+        pass
 
 def mergeFileDictionaries(remote_file_dict):
     for file in remote_file_dict:
@@ -58,23 +64,31 @@ def mergeFileDictionaries(remote_file_dict):
 
 #receives MAC and IP
 def downloadRemoteDictionary(k, peer_ip):
-    print peer_ip
-    with open('temp/%s.bd' %k, 'wb') as f:
-        #print 'http://' + peer_ip + ':8080/file_dict.bd'
-        f.write(urllib2.urlopen('http://' + peer_ip + ':8080/file_dict.bd').read())
-        f.close()
-    return 'temp/%s.bd' % k
+    try:
+        print peer_ip
+        with open('temp/%s.bd' %k, 'wb') as f:
+            #print 'http://' + peer_ip + ':8080/file_dict.bd'
+            f.write(urllib2.urlopen('http://' + peer_ip + ':8080/file_dict.bd').read())
+            f.close()
+        return 'temp/%s.bd' % k
+    except:
+        pass
+        return 'f'
 
 def downloadRemoteFile(file, peer_ip):
-    with open('%s' % file, 'wb') as f:
-        print 'http://' + peer_ip + ':8080' + file
-        f.write(urllib2.urlopen('http://' + peer_ip + ':8080' + file ).read())
-        f.close()
+    try:
+        with open('%s' % file, 'wb') as f:
+            print 'http://' + peer_ip + ':8080' + file
+            f.write(urllib2.urlopen('http://' + peer_ip + ':8080' + file ).read())
+            f.close()
+    except:
+        pass
 
 def syncFilesThread():
     #recoverDictionaries()
     while True:
         dumpDictionaries()
+        local_peers = gvar.peer_dict
         #for files in gvar.file_dict:
             #print gvar.file_dict[files]
 
@@ -88,13 +102,28 @@ def syncFilesThread():
                 downloadRemoteDictionary(k, gvar.peer_dict[k])
                 remote_file_dict = readDictionary('temp/%s.bd' % k)
                 #download all remote files than merge file dictionaries
-                for files in remote_file_dict:
-                    print remote_file_dict[files]
-                    if num(k) in remote_file_dict[files]:
-                        continue
-                    else:
-                        downloadRemoteFile(remote_file_dict[files][0], gvar.peer_dict[remote_file_dict[files][1]])
-                mergeFileDictionaries(remote_file_dict)
+                if remote_file_dict != 'f':
+                    for files in remote_file_dict:
+                        print remote_file_dict[files]
+                        if num(gvar.mac) in remote_file_dict[files][1]:
+                            continue
+                        else:
+                            mac = (remote_file_dict[files][1].keys()[0])
+                            remote_ip = ''
+                            while remote_ip is '':
+                                try:
+                                    for peer in local_peers:
+                                        npeer = num(peer[0])
+                                        if npeer ==  mac:
+                                            remote_ip = peer[1]
+
+                                    #local_peers.keys()
+                                    #remote_ip = local_peers[mac]
+                                except:
+                                    pass
+                            print remote_ip
+                            downloadRemoteFile(remote_file_dict[files][0], remote_ip)
+                    mergeFileDictionaries(remote_file_dict)
         time.sleep(5)
 
 def num(s):
