@@ -6,6 +6,7 @@ import socket
 import re
 import threading
 from uuid import getnode as get_mac
+import gvar
 
 
 # Porta UDP para broadcast do keep alive
@@ -15,7 +16,7 @@ threads = []
 #HOST_IP = ''
 
 
-def keepAliveListener(conn, LOCAL_IP, dict):
+def keepAliveListener(conn):
     # Receive messages
     while True:
         try:
@@ -35,14 +36,14 @@ def keepAliveListener(conn, LOCAL_IP, dict):
             #TODO: reset peer timer
             #    continue
 
-            if dict.has_key(match.group(1)):
-                if dict[match.group(1)] == match.group(2):
+            if gvar.peer_dict.has_key(match.group(1)):
+                if gvar.peer_dict[match.group(1)] == match.group(2):
                     continue
                 else:
-                    dict[match.group(1)] = match.group(2)
+                    gvar.peer_dict[match.group(1)] = match.group(2)
                 continue
             else:
-                dict[match.group(1)] = match.group(2)
+                gvar.peer_dict[match.group(1)] = match.group(2)
                 #print 'New peer:' + dict[match.group(1)]
                 #TODO:set new peer timer
                 continue
@@ -51,10 +52,9 @@ def keepAliveListener(conn, LOCAL_IP, dict):
         time.sleep(0.1)
 
 
-def keepAliveSend(conn, LOCAL_IP):
+def keepAliveSend(conn):
     while True:
-        mac = get_mac()
-        conn.sendto(('SYNCFILES_MAC_%s_IP_%s' % (mac, LOCAL_IP)), (BROADCAST_IP, PORT))
+        conn.sendto(('SYNCFILES_MAC_%s_IP_%s' % (gvar.mac, gvar.ip)), (BROADCAST_IP, PORT))
         time.sleep(0.5)
 
 def keepAlivePeers(dict):
@@ -73,7 +73,7 @@ def getLocalIP():
     s.close()
     return LOCAL_IP
 
-def UDPServer(dict, LOCAL_IP):
+def UDPServer():
 
     # Create socket and bind to address
     udpSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -85,12 +85,12 @@ def UDPServer(dict, LOCAL_IP):
 
 
     try:
-        threads.append (threading.Thread(target=keepAliveListener, args=(udpSock, LOCAL_IP, dict,)))
+        threads.append (threading.Thread(target=keepAliveListener, args=(udpSock, )))
     except:
         print "Nao foi possivel iniciar thread Listener"
 
     try:
-        threads.append( threading.Thread(target=keepAliveSend, args=(udpSock, LOCAL_IP,)))
+        threads.append( threading.Thread(target=keepAliveSend, args=(udpSock, )))
     except:
         print "Nao foi possivel iniciar thread Sender"
 

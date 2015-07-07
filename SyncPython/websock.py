@@ -6,6 +6,7 @@ import time    # Current time
 import os.path
 import shutil
 import re
+import gvar
 
 class websock:
     """ Class describing a simple HTTP server objects."""
@@ -41,7 +42,7 @@ class websock:
             except Exception as e:
                 print("ERROR: Failed to acquire sockets for ports ", user_port, " and 8080. ")
                 print("Try running the Server in a privileged user mode.")
-                self.shutdown()
+                self.stop()
                 import sys
                 sys.exit(1)
 
