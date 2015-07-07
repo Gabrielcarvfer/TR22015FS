@@ -77,7 +77,7 @@ def downloadRemoteDictionary(k, peer_ip):
 
 def downloadRemoteFile(file, peer_ip):
     try:
-        with open('%s' % file, 'wb') as f:
+        with open('webpage/%s' % file, 'wb') as f:
             print 'http://' + peer_ip + ':8080' + file
             f.write(urllib2.urlopen('http://' + peer_ip + ':8080' + file ).read())
             f.close()
@@ -121,9 +121,10 @@ def syncFilesThread():
                                 #remote_ip = local_peers[mac]
 
                             print remote_ip
+                            print remote_file_dict[files][0]
                             downloadRemoteFile(remote_file_dict[files][0], remote_ip)
                     mergeFileDictionaries(remote_file_dict)
-        time.sleep(5)
+        time.sleep(30)
 
 def num(s):
     try:
