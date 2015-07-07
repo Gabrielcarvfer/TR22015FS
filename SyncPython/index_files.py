@@ -7,30 +7,12 @@ import time
 
 def indexFiles(directory, file_dict, local_mac):
     while True:
-        #print 'Indexing...'
         for root, subdirs, files in os.walk(directory):
-            #print('--\nroot = ' + root)
-            #list_file_path = os.path.join(root, 'my-directory-list.txt')
-            #print('list_file_path = ' + list_file_path)
-
-<<<<<<< HEAD
-        for filename in files:
-            file_path = os.path.join(root, filename)
-            if os.sep == '\\':
-                file_path = file_path.replace('\\', '/')
-            #print file_path
-            m = hashlib.md5(file_path).digest()
-            #print m
-            owner_peers = []
-            owner_peers.append(local_mac)
-            owner_peers = {}
-            owner_peers[local_mac] = 1
-            file_dict['%s' % m] = (file_path, owner_peers )
-=======
             for filename in files:
                 file_path = os.path.join(root, filename)
                 if os.sep == '\\':
                     file_path = file_path.replace('\\', '/')
+                file_path = file_path.replace('webpage', '')
                 #print file_path
                 m = hashlib.md5(file_path).digest()
                 #print m
@@ -40,7 +22,7 @@ def indexFiles(directory, file_dict, local_mac):
                 owner_peers[local_mac] = 1
                 file_dict['%s' % m] = (file_path, owner_peers )
         time.sleep(5)
->>>>>>> 776b265b166593b6bc442100681c13f21d25f6b8
+
 
 def dumpDictionaries(file_dict, peer_dict):
     with open('webpage/file_dict.bd', 'w') as handle:

@@ -36,7 +36,6 @@ def main():
             threads.append( threading.Thread(target=indexFiles, args=('webpage/syncedFiles', file_dict, LOCAL_MAC, )))
             threads[2].daemon = True
             threads[2].start()
-            indexFiles('webpage/syncedFiles', file_dict, LOCAL_MAC)
             pass
         except:
             pass
@@ -49,20 +48,6 @@ def main():
             pass
         except:
             pass
-
-
-<<<<<<< HEAD
-            keys = copy_keys(peer_dict)
-            for k in keys:
-                if ((('%s' % LOCAL_MAC) == k) | (peer_dict[k] == LOCAL_IP)):
-                    continue
-                else:
-                    print peer_dict[k]
-                    remote_file_dict = readDictionary(downloadFileRemoteDictionary(k, peer_dict[k]))
-                    mergeFileDictionaries(file_dict, remote_file_dict, LOCAL_MAC)
-            time.sleep(2)
-=======
->>>>>>> 776b265b166593b6bc442100681c13f21d25f6b8
 
         threads[0].join()
         threads[1].join()
