@@ -102,7 +102,7 @@ class websock:
                 file_requested = string.split(' ')
                 file_requested = file_requested[1] 
 
-                 file_requested = file_requested.split('?')[0] 
+                file_requested = file_requested.split('?')[0] 
 
                 if (file_requested == '/'): 
                     file_requested = '/index.html'
@@ -255,7 +255,7 @@ class websock:
                 tree+= '</ul>'
         tree+= '</ul>'
 
-        body = """ <div> <p>Criar novo diretorio</p>
+        body = """ <div style="background-color: gray; padding:4px;margin:4px;"> <p>Criar novo diretorio</p>
     <form  method="POST" ">
     <p>Nome do pai do novo diretorio:<select name="dir">"""
         for path, dirs, files in os.walk('./webpage/syncedFiles'):
@@ -266,7 +266,7 @@ class websock:
         <input type="submit" value="Submit">
         </form>
         </div>
-        <div>
+        <div style="background-color: gray; padding:4px;margin:4px;">
         <p>Deletar diretorio</p>
         <form  method="POST" ">
         <p>Diretorio a ser deletado(e todos os arquivos):<select name="delete_dir">"""
@@ -277,7 +277,7 @@ class websock:
         </select></p>
         <input type="submit" value="Submit">
         </form>
-        </div>	<div>
+        </div>	<div style="background-color: gray; padding:4px;margin:4px;" >
 
         <p>Adicionar arquivo</p>
         <form " method="post" >
@@ -295,7 +295,7 @@ class websock:
                 </div>
 
 
-        <div> <p>Deletar arquivo</p>
+        <div style="background-color: gray; padding:4px;"> <p>Deletar arquivo</p>
         <form  method="POST" ">
         <p>Selecione o arquivo a ser deletado:<select name="file_delete">"""
 
@@ -309,7 +309,7 @@ class websock:
            <input type="submit" value="Submit">
         </form>
         </div>
-        <div>
+        <div style="background-color: gray; padding:4px;margin:4px;">
         <p>Deletar diretorio</p>
         <form  method="POST" ">
         <p>Diretorio a ser deletado(e todos os arquivos):<select name="delete_dir">"""
