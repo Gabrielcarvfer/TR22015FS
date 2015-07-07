@@ -244,9 +244,12 @@ class websock:
         """ %(str)
         tree = '<ul>'
 
-        server_address_string = 'http://%s:%s/' % (self.host, self.port)
+        server_address_string = 'http://%s:%s/' % (gvar.ip, self.port)
         for path, dirs, files in os.walk('./webpage/syncedFiles'):
-            lining = path.count('\\')
+            if os.sep == '\\':
+                lining = path.count('\\')
+            else:
+                 lining = path.count ('/')
             for x in range (0,lining-1):
                 tree += '<ul>'
             tree +='<li>'+ os.path.basename(path)

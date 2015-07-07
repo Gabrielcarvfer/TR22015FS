@@ -25,11 +25,11 @@ def indexFiles(directory):
 
 def dumpDictionaries():
     with open('webpage/file_dict.bd', 'wb') as handle:
-        file_dict = copy_keys(gvar.file_dict)
+        file_dict = gvar.file_dict
         pickle.dump(file_dict, handle)
         handle.close()
     with open('webpage/peer_dict.bd', 'wb') as handle:
-        peer_dict = copy_keys(gvar.file_dict)
+        peer_dict = gvar.file_dict
         pickle.dump(peer_dict, handle)
         handle.close()
 
@@ -78,7 +78,7 @@ def syncFilesThread():
         #for files in gvar.file_dict:
             #print gvar.file_dict[files]
 
-        keys = copy_keys(gvar.peer_dict)
+        keys = gvar.peer_dict
         for k in keys:
             #print gvar.mac
             if ('%s' % gvar.mac) == k:
@@ -96,10 +96,6 @@ def syncFilesThread():
                         downloadRemoteFile(remote_file_dict[files][0], gvar.peer_dict[remote_file_dict[files][1]])
                 mergeFileDictionaries(remote_file_dict)
         time.sleep(5)
-
-def copy_keys(object):
-    keys = object.keys()
-    return keys
 
 def num(s):
     try:
