@@ -77,9 +77,11 @@ def downloadRemoteDictionary(k, peer_ip):
 
 def downloadRemoteFile(file, peer_ip):
     try:
+
+        print 'Downloading remote file http://' + peer_ip + ':8080' + file
+        remote_file = urllib2.urlopen('http://' + peer_ip + ':8080' + file)
         with open('webpage/%s' % file, 'wb') as f:
-            print 'http://' + peer_ip + ':8080' + file
-            f.write(urllib2.urlopen('http://' + peer_ip + ':8080' + file ).read())
+            f.write(remote_file.read())
             f.close()
     except:
         pass
