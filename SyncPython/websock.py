@@ -113,15 +113,15 @@ class websock:
                 file_requested = file_requested.split('?')[0]  # disregard anything after '?'
 
                 if (file_requested == '/'):  # in case no file is specified by the browser
-                    file_requested = '/index.html' # load index.html by default
+                    file_requested = '/welcome.html' # load index.html by default
 
-                file_request = file_request.replace('%20', ' ')
+                file_requested = file_requested.replace('%20', ' ')
                 file_requested = self.www_dir + file_requested
                 print ("Serving web page [",file_requested,"]")
 
                 ## Load file content
                 try:
-                    file_handler = open(file_requested,'rb')
+                    file_handler = open('%s' % file_requested,'rb')
                     if (request_method == 'GET'):  #only read the file when GET
                         response_content = file_handler.read() # read file content
                     file_handler.close()
