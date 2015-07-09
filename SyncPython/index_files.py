@@ -118,7 +118,7 @@ def syncFilesThread():
                 #download all remote files without copies than merge file dictionaries
                 if remote_file_dict != 'failed':
                     for files in remote_file_dict:
-                        print remote_file_dict[files]
+                        #print remote_file_dict[files]
                         #if local server is already on dictionary skip
                         if gvar.mac in remote_file_dict[files][1]:
                             continue
@@ -133,8 +133,6 @@ def syncFilesThread():
                                 #print remote ip and file
                                 #print keys[k][0] + remote_file_dict[files][0]
                                 downloadRemoteFile(remote_file_dict[files][0], keys[k][0])
-                                ldict = {k:(1)}
-                                rdict = gvar.file_dict[files][1]
                                 gvar.file_dict[files][1].update({k:(1)})
                     mergeFileDictionaries(k, remote_file_dict)
         time.sleep(27)
