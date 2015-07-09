@@ -108,13 +108,14 @@ class websock:
                 file_requested = string.split(' ')
                 file_requested = file_requested[1] # get 2nd element
 
+
                 #Check for URL arguments. Disregard them
                 file_requested = file_requested.split('?')[0]  # disregard anything after '?'
 
                 if (file_requested == '/'):  # in case no file is specified by the browser
                     file_requested = '/index.html' # load index.html by default
 
-
+                file_request = file_request.replace('%20', ' ')
                 file_requested = self.www_dir + file_requested
                 print ("Serving web page [",file_requested,"]")
 
@@ -244,23 +245,42 @@ class websock:
         """ %(str)
         tree = '<ul>'
 
-        server_address_string = 'http://%s:%s/' % (gvar.ip, self.port)
-        for path, dirs, files in os.walk('./webpage/syncedFiles'):
-            if os.sep == '\\':
-                lining = path.count('\\')
+        file_dict = gvar.file_dict
+        local_file_dict = {}
+        remote_file_dict = {}
+        for files in file_dict:
+            if gvar.mac in file_dict[files][1]:
+                local_file_dict.update({files:file_dict[files]})
             else:
-                 lining = path.count ('/')
-            for x in range (0,lining-1):
-                tree += '<ul>'
-            tree +='<li>'+ os.path.basename(path)
-            tree +='<ul>'
-            for f in files:
+                remote_file_dict.update({files:file_dict[files]})
+
+
+        server_address_string = 'http://%s:%s/' % (gvar.ip, self.port)
+        tree += '<p>Arquivos locais:</p><div><ul>'
+        for files in local_file_dict:
+             tree += '<li><a href="http://%s:8080%s" target="_blank">%s</a></li>' % (gvar.ip, local_file_dict[files][0], local_file_dict[files][0])
+        tree += '</ul></div>Arquivos remotos<div><ul>'
+        for files in remote_file_dict:
+            for remote_mac in remote_file_dict[files][1]:
+             remote_ip = gvar.peer_dict[remote_mac]
+             tree += '<li><a href="http://%s:8080%s" target="_blank">%s</a></li>' % (remote_ip[0] ,remote_file_dict[files][0], remote_file_dict[files][0])
+        tree += '</ul></div>'
+        #for path, dirs, files in os.walk('./webpage/syncedFiles'):
+        #    if os.sep == '\\':
+        #        lining = path.count('\\')
+        #    else:
+        #         lining = path.count ('/')
+        #    for x in range (0,lining-1):
+        #        tree += '<ul>'
+        #    tree +='<li>'+ os.path.basename(path)
+        #    tree +='<ul>'
+           #for f in files:
                 #tree += '<li><a href=http://localhost:8080/'+os.path.basename(path)+'/'+f+' target="_blank">'+f+'</a></li>'
-                tree += '<li><a href='+server_address_string+os.path.basename(path)+'/'+f+' target="_blank">'+f+'</a></li>'
-            tree += '</li>'
-            for x in range (0,lining):
-                tree+= '</ul>'
-        tree+= '</ul>'
+                #tree += '<li><a href='+server_address_string+os.path.basename(path)+'/'+f+' target="_blank">'+f+'</a></li>'
+        #    tree += '</li>'
+        #    for x in range (0,lining):
+        #        tree+= '</ul>'
+        #tree+= '</ul>'
 
         body = """ <div> <p>Criar novo diretorio</p>
     <form  method="POST" ">
