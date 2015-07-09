@@ -17,11 +17,12 @@ def indexFiles(directory):
                 #print file_path
                 m = hashlib.md5(file_path).digest()
                 #print m
-                owner_peers = {}
-                owner_peers[gvar.mac] = 1
-                gvar.file_dict[m] = (file_path, owner_peers )
+                if m in gvar.file_dict:
+                    continue
+                else:
+                    gvar.file_dict.update({m:(file_path, {gvar.mac: (1)})})
 
-        time.sleep(2)
+        time.sleep(23)
 
 def dumpDictionaries():
     try:
@@ -57,8 +58,8 @@ def mergeFileDictionaries(remote_mac, remote_file_dict):
                 #if file already is registered with local mac, don't do anything
                 continue
             else:
-                print 'remote file %s already exists here, adding remote peer %s as owner' % (gvar.file_dict[file][0], remote_mac)
-                gvar.file_dict[file][1].update({remote_mac:(1)})
+                print 'remote file %s already exists here, already added remote peer %s as owner' % (gvar.file_dict[file][0], remote_mac)
+
                 continue
         else:
             print 'remote file %s doesnt exists here, adding to local dictionary' % (remote_file_dict[file][0])
@@ -76,7 +77,9 @@ def downloadRemoteDictionary(k, peer):
                 return 'temp/%s.bd' % k
         else:
             print "Remote server is offline\n"
+            return 'failed'
    except:
+        return 'failed'
         pass
 
 
@@ -113,25 +116,28 @@ def syncFilesThread():
                 downloadRemoteDictionary(k, gvar.peer_dict[k])
                 remote_file_dict = readDictionary('temp/%s.bd' % k)
                 #download all remote files without copies than merge file dictionaries
-                for files in remote_file_dict:
-                    print remote_file_dict[files]
-                    #if local server is already on dictionary skip
-                    ldict = remote_file_dict[files][1]
-                    if gvar.mac in remote_file_dict[files][1]:
-                        continue
-                    else:
-                    #if not on marked as file owner
-                        file_owners = remote_file_dict[files][1]
-                        #check if file has a copy on the network
-                        if len(file_owners) >= 2:
+                if remote_file_dict != 'failed':
+                    for files in remote_file_dict:
+                        print remote_file_dict[files]
+                        #if local server is already on dictionary skip
+                        if gvar.mac in remote_file_dict[files][1]:
                             continue
-                        #if not, then copy it to local server
                         else:
-                            #print remote ip and file
-                            #print keys[k][0] + remote_file_dict[files][0]
-                            downloadRemoteFile(remote_file_dict[files][0], keys[k][0])
-                mergeFileDictionaries(k, remote_file_dict)
-        time.sleep(30)
+                        #if not on marked as file owner
+                            file_owners = remote_file_dict[files][1]
+                            #check if file has a copy on the network
+                            if len(file_owners) >= 2:
+                                continue
+                            #if not, then copy it to local server
+                            else:
+                                #print remote ip and file
+                                #print keys[k][0] + remote_file_dict[files][0]
+                                downloadRemoteFile(remote_file_dict[files][0], keys[k][0])
+                                ldict = {k:(1)}
+                                rdict = gvar.file_dict[files][1]
+                                gvar.file_dict[files][1].update({k:(1)})
+                    mergeFileDictionaries(k, remote_file_dict)
+        time.sleep(27)
 
 def num(s):
     try:
