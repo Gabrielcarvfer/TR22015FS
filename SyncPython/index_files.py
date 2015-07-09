@@ -14,7 +14,7 @@ def indexFiles(directory):
                 if os.sep == '\\':
                     file_path = file_path.replace('\\', '/')
                 file_path = file_path.replace('webpage', '')
-                print file_path
+                #print file_path
                 m = hashlib.md5(file_path).digest()
                 #print m
                 if m in gvar.file_dict:
@@ -22,7 +22,7 @@ def indexFiles(directory):
                 else:
                     gvar.file_dict.update({m:(file_path, {gvar.mac: (1)})})
 
-        time.sleep(23)
+        time.sleep(7)
 
 def dumpDictionaries():
     try:
@@ -58,26 +58,25 @@ def mergeFileDictionaries(remote_mac, remote_file_dict):
                 #if file already is registered with local mac, don't do anything
                 continue
             else:
-                #print 'remote file %s already exists here, already added remote peer %s as owner' % (gvar.file_dict[file][0], remote_mac)
+                print 'remote file %s already exists here, already added remote peer %s as owner' % (gvar.file_dict[file][0], remote_mac)
 
                 continue
         else:
-            #print 'remote file %s doesnt exists here, adding to local dictionary' % (remote_file_dict[file][0])
+            print 'remote file %s doesnt exists here, adding to local dictionary' % (remote_file_dict[file][0])
             gvar.file_dict[file] = remote_file_dict[file]
 
 #receives MAC and IP
 def downloadRemoteDictionary(k, peer):
    try:
-        if peer[1] == 1:
-            with open('temp/%s.bd' %k, 'wb') as f:
-                #print 'http://' + peer_ip[0] + ':8080/file_dict.bd'
-                remote_file = urllib2.urlopen('http://' + peer[0] + ':8080/file_dict.bd')
-                f.write(remote_file.read())
-                f.close()
-                return 'temp/%s.bd' % k
-        else:
-            #print "Remote server is offline\n"
-            return 'failed'
+
+        remote_file = urllib2.urlopen('http://' + peer[0] + ':8080/file_dict.bd')
+        #print 'http://' + peer_ip[0] + ':8080/file_dict.bd'
+        with open('temp/%s.bd' %k, 'wb') as f:
+
+            f.write(remote_file.read())
+            f.close()
+            return 'temp/%s.bd' % k
+
    except:
         return 'failed'
         pass
@@ -85,14 +84,11 @@ def downloadRemoteDictionary(k, peer):
 
 def downloadRemoteFile(file, peer):
     try:
-        if peer[1] == 1:
-            #print 'Downloading remote file http://' + peer[0] + ':8080' + file
-            remote_file = urllib2.urlopen('http://' + peer[0] + ':8080' + file)
-            with open('webpage/%s' % file, 'wb') as f:
-                f.write(remote_file.read())
-                f.close()
-        else:
-            print 'Remote server is offline'
+        remote_file = urllib2.urlopen('http://' + peer[0] + ':8080' + file)
+        print 'Downloading remote file http://' + peer[0] + ':8080' + file
+        with open('webpage/%s' % file, 'wb') as f:
+            f.write(remote_file.read())
+            f.close()
     except:
         pass
 
@@ -136,7 +132,7 @@ def syncFilesThread():
                                 gvar.file_dict.update({files:(remote_file_dict[files][0], {k: (1)})})
                                 #gvar.file_dict[files][1].update({k:(1)})
                     mergeFileDictionaries(k, remote_file_dict)
-        time.sleep(27)
+        time.sleep(11)
 
 def num(s):
     try:

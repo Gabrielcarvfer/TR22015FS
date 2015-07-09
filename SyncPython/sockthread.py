@@ -60,7 +60,7 @@ def keepAliveSend(conn):
 
 def keepAlivePeers():
     while True:
-        time.sleep(33)
+        time.sleep(47)
         for peers in gvar.peer_dict:
             peer_ip = gvar.peer_dict[peers][0]
             gvar.peer_dict.update({peers: (peer_ip, 0)})
