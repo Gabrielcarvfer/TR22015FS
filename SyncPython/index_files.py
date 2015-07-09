@@ -133,7 +133,8 @@ def syncFilesThread():
                                 #remote ip and file
                                 #print keys[k][0] + remote_file_dict[files][0]
                                 downloadRemoteFile(remote_file_dict[files][0], keys[k][0])
-                                gvar.file_dict[files][1].update({k:(1)})
+                                gvar.file_dict.update({files:(remote_file_dict[files][0], {k: (1)})})
+                                #gvar.file_dict[files][1].update({k:(1)})
                     mergeFileDictionaries(k, remote_file_dict)
         time.sleep(27)
 
