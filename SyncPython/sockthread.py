@@ -36,16 +36,17 @@ def keepAliveListener(conn):
             #TODO: reset peer timer
             #    continue
 
-            if gvar.peer_dict.has_key(match.group(1)):
-                if gvar.peer_dict[match.group(1)] == match.group(2):
+            mac_long = long(match.group(1))
+            if mac_long in gvar.peer_dict:
+                if gvar.peer_dict[mac_long][0] == match.group(2):
+                    #set peer as alive
+
+                    gvar.peer_dict.update({mac_long :(match.group(2), 1)})
                     continue
-                else:
-                    gvar.peer_dict[match.group(1)] = match.group(2)
-                continue
             else:
-                gvar.peer_dict[match.group(1)] = match.group(2)
+                #add new peer and set as alive
+                gvar.peer_dict[mac_long] = (match.group(2),1)
                 #print 'New peer:' + dict[match.group(1)]
-                #TODO:set new peer timer
                 continue
         except:
             print "timeout"
@@ -57,10 +58,12 @@ def keepAliveSend(conn):
         conn.sendto(('SYNCFILES_MAC_%s_IP_%s' % (gvar.mac, gvar.ip)), (BROADCAST_IP, PORT))
         time.sleep(0.5)
 
-def keepAlivePeers(dict):
+def keepAlivePeers():
     while True:
-        time.sleep(20)
-        dict = {}
+        time.sleep(30)
+        for peers in gvar.peer_dict:
+            peer_ip = gvar.peer_dict[peers][0]
+            gvar.peer_dict.update({peers: (peer_ip, 0)})
 
 def getSockMac():
     return get_mac()
@@ -93,6 +96,11 @@ def UDPServer():
         threads.append( threading.Thread(target=keepAliveSend, args=(udpSock, )))
     except:
         print "Nao foi possivel iniciar thread Sender"
+
+    try:
+        threads.append( threading.Thread(target=keepAlivePeers, args=()))
+    except:
+        print "Nao foi possivel iniciar thread Peer"
 
     for thread in threads:
         thread.daemon = True

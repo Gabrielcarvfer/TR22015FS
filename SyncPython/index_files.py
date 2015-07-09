@@ -19,7 +19,7 @@ def indexFiles(directory):
                 #print m
                 owner_peers = {}
                 owner_peers[gvar.mac] = 1
-                gvar.file_dict['%s' % m] = (file_path, owner_peers )
+                gvar.file_dict[m] = (file_path, owner_peers )
 
         time.sleep(2)
 
@@ -49,40 +49,47 @@ def readDictionary(dictionary_path):
     except:
         pass
 
-def mergeFileDictionaries(remote_file_dict):
+def mergeFileDictionaries(remote_mac, remote_file_dict):
     for file in remote_file_dict:
-        if gvar.file_dict.has_key(file):
-            if remote_file_dict[file][1].has_key(gvar.mac):
+        #check if file is already on dictionary, if its not, then add it
+        if file in gvar.file_dict:
+            if gvar.mac in gvar.file_dict[file][1]:
                 #if file already is registered with local mac, don't do anything
                 continue
             else:
-                print 'remote file %s already exists here, adding remote peer %s as owner' % (gvar.file_dict[file][0], remote_file_dict[file][1])
-                gvar.file_dict[file][1].update(remote_file_dict[file][1])
+                print 'remote file %s already exists here, adding remote peer %s as owner' % (gvar.file_dict[file][0], remote_mac)
+                gvar.file_dict[file][1].update({remote_mac:(1)})
+                continue
         else:
             print 'remote file %s doesnt exists here, adding to local dictionary' % (remote_file_dict[file][0])
             gvar.file_dict[file] = remote_file_dict[file]
 
 #receives MAC and IP
-def downloadRemoteDictionary(k, peer_ip):
-    #try:
-        print peer_ip
-        with open('temp/%s.bd' %k, 'wb') as f:
-            #print 'http://' + peer_ip + ':8080/file_dict.bd'
-            f.write(urllib2.urlopen('http://' + peer_ip + ':8080/file_dict.bd').read())
-            f.close()
-        return 'temp/%s.bd' % k
-    #except:
-    #    pass
-    #    return 'f'
+def downloadRemoteDictionary(k, peer):
+   try:
+        if peer[1] == 1:
+            with open('temp/%s.bd' %k, 'wb') as f:
+                #print 'http://' + peer_ip[0] + ':8080/file_dict.bd'
+                remote_file = urllib2.urlopen('http://' + peer[0] + ':8080/file_dict.bd')
+                f.write(remote_file.read())
+                f.close()
+                return 'temp/%s.bd' % k
+        else:
+            print "Remote server is offline\n"
+   except:
+        pass
 
-def downloadRemoteFile(file, peer_ip):
+
+def downloadRemoteFile(file, peer):
     try:
-
-        print 'Downloading remote file http://' + peer_ip + ':8080' + file
-        remote_file = urllib2.urlopen('http://' + peer_ip + ':8080' + file)
-        with open('webpage/%s' % file, 'wb') as f:
-            f.write(remote_file.read())
-            f.close()
+        if peer[1] == 1:
+            print 'Downloading remote file http://' + peer[0] + ':8080' + file
+            remote_file = urllib2.urlopen('http://' + peer[0] + ':8080' + file)
+            with open('webpage/%s' % file, 'wb') as f:
+                f.write(remote_file.read())
+                f.close()
+        else:
+            print 'Remote server is offline'
     except:
         pass
 
@@ -90,42 +97,40 @@ def syncFilesThread():
     #recoverDictionaries()
     while True:
         dumpDictionaries()
-        local_peers = gvar.peer_dict
         #for files in gvar.file_dict:
             #print gvar.file_dict[files]
 
+        #repeat for every known peer
         keys = gvar.peer_dict
         for k in keys:
             #print gvar.mac
-            if ('%s' % gvar.mac) == k:
+            #file already exists in local server
+            if (gvar.mac) == k:
                 continue
             else:
+            #file is only available in remote servers
                 #print gvar.peer_dict[k]
                 downloadRemoteDictionary(k, gvar.peer_dict[k])
                 remote_file_dict = readDictionary('temp/%s.bd' % k)
-                #download all remote files than merge file dictionaries
-                if remote_file_dict != 'f':
-                    for files in remote_file_dict:
-                        print remote_file_dict[files]
-                        if num(gvar.mac) in remote_file_dict[files][1]:
+                #download all remote files without copies than merge file dictionaries
+                for files in remote_file_dict:
+                    print remote_file_dict[files]
+                    #if local server is already on dictionary skip
+                    ldict = remote_file_dict[files][1]
+                    if gvar.mac in remote_file_dict[files][1]:
+                        continue
+                    else:
+                    #if not on marked as file owner
+                        file_owners = remote_file_dict[files][1]
+                        #check if file has a copy on the network
+                        if len(file_owners) >= 2:
                             continue
+                        #if not, then copy it to local server
                         else:
-                            mac = (remote_file_dict[files][1].keys()[0])
-                            remote_ip = ''
-
-                            for peer in local_peers:
-                                  mmac = ('%s' % mac)
-                                  if peer[0] in mmac:
-                                      remote_ip = local_peers[mmac]
-                                      break
-
-                                #local_peers.keys()
-                                #remote_ip = local_peers[mac]
-
-                            print remote_ip
-                            print remote_file_dict[files][0]
-                            downloadRemoteFile(remote_file_dict[files][0], remote_ip)
-                    mergeFileDictionaries(remote_file_dict)
+                            #print remote ip and file
+                            #print keys[k][0] + remote_file_dict[files][0]
+                            downloadRemoteFile(remote_file_dict[files][0], keys[k][0])
+                mergeFileDictionaries(k, remote_file_dict)
         time.sleep(30)
 
 def num(s):
